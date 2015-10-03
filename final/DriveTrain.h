@@ -1,10 +1,11 @@
 #ifndef DRIVE_TRAIN_H
 #define DRIVE_TRAIN_H
 
-#include "Servo.h"
+#include "Arduino.h"
+#include <Servo.h> //it has to be included in the main .ino file
 
-#define DEFAULT_SPEED 		35
-#define MOTOR_COMPENSATION 	15
+#define DEFAULT_SPEED 		50
+#define MOTOR_COMPENSATION 	.1
 
 class DriveTrain
 {
@@ -15,16 +16,18 @@ class DriveTrain
 	
 	public:
 	
-	DriveTrain();
-	DriveTrain(int left_motor_pin, int right_motor_pin);
+	//DriveTrain();
+	//DriveTrain(int left_motor_pin, int right_motor_pin);//This constructor didn't work (very weird)
 	
 	void attachMotors(int left_motor_pin, int right_motor_pin);
 	void drive(int left_value, int right_value);
-	
+
+	void stop();
+  
 	void goStraight(int speed = DEFAULT_SPEED);
 	void turnLeft(int speed = DEFAULT_SPEED/2);
 	void turnRight(int speed = DEFAULT_SPEED/2);
 	void turn(int speed);
-}
+};
 
 #endif
