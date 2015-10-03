@@ -3,6 +3,7 @@
 
 #include "Arduino.h"
 #include <Servo.h> //it has to be included in the main .ino file
+#include "PidController.h"
 
 class FRED//TODO: translation of FRED
 {
@@ -11,6 +12,9 @@ class FRED//TODO: translation of FRED
 	Servo gripper_servo;
 	Servo lift_motor;
 	Servo turn_gripper_servo;
+	
+	//PidController lift_speed_pid;
+	//PidController lift_pos_pid;
 	
 	public:
 	
