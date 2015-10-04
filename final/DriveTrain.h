@@ -16,8 +16,8 @@ class DriveTrain
 	
 	public:
 	
-	//DriveTrain();
-	//DriveTrain(int left_motor_pin, int right_motor_pin);//This constructor didn't work (very weird)
+	DriveTrain(){}
+	DriveTrain(int left_motor_pin, int right_motor_pin);//This constructor didn't work with global variable
 	
 	void attachMotors(int left_motor_pin, int right_motor_pin);
 	void drive(int left_value, int right_value);

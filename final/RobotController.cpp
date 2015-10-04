@@ -1,46 +1,48 @@
 #include "Arduino.h"
-#include "Switch.h"
+#include "RobotController.h"
 
-Switch::Switch()
-{
-	
-}
-
-Switch::Switch(int number, int type)
-{
-	
-}
-
-void Switch::setPin(int number, int type)
+int RobotController::execute(Action action)
 {
 	//TODO
+	return 0;
 }
 
-bool Switch::isPressed()
+int RobotController::stop()
 {
 	//TODO
-	return false;
+	return 0;
 }
 
-bool Switch::waitOn(int how_long)
+int RobotController::resume()
 {
 	//TODO
-	return false;
+	return 0;
 }
 
-bool Switch::waitOff(int how_long)
+
+//All the functions execute just 1 iteration and return
+//0 when it didn't finish yet
+//1 when it's done (go to the next action)
+int RobotController::turn(TurnDirection dir, LineSensorIndex stopper_sensor)
 {
 	//TODO
-	return false;
+	return 0;
 }
 
-bool Switch::waitChange(int how_long)
+int RobotController::goStraight(int speed, int n_line_crossings)
 {
 	//TODO
-	return false;
+	return 0;
 }
 
-void Switch::setPollingPeriod(int time)
+int RobotController::moveGripper(LifterAction movement)
 {
-	
+	//TODO
+	return 0;
+}
+
+int RobotController::gripper(GripperPosition state)
+{
+	//TODO
+	return 0;
 }

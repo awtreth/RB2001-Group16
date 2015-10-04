@@ -1,35 +1,15 @@
-#ifndef ACTIONS_H
-#define ACTIONS_H
+#ifndef ROBOT_CONTROLLER_H
+#define ROBOT_CONTROLLER_H
 
 #include "Switch.h"
 #include "DriveTrain.h"
 #include "LineSensor.h"
+#include "Action.h"
 
-enum ActionType{TURN, GO_FORWARD, GRIPPER, TURN_GRIPPER, LIFT_GRIPPER, STOP, ALARM};
 
-enum TurnDirection{LEFT_TURN, RIGHT_TURN};
-enum GripperPosition{OPEN, CLOSE};
-enum LifterAction{MOVE_UP, MOVE_DOWN};
 
-enum LineSensorIndex{LEFT_LS, RIGHT_LS, SIDE_LS, BACK_LS, N_LINE_SENSORS};
-enum SwitchIndex{FRONT_SW, N_SWITCHES};
 
-struct Action
-{
-	ActionType type;
-	
-	Switch stopper;
-	int n_times;
-	
-	union//Other parameters
-	{
-		TurnDirection direction;
-		GripperPosition position;
-		LifterAction movment;
-	}
-};
-
-class ActionExecuter
+class RobotController
 {
 	public:
 	DriveTrain drive_train;
@@ -37,37 +17,24 @@ class ActionExecuter
 	LineSensor line_sensors[N_LINE_SENSORS];
 	Switch switches[N_SWITCHES];
 	
-	bool execute(Action action);
-	bool stop();
-	bool resume();
+	int execute(Action action);
+	int stop();
+	int resume();
+
+  int alarm_pin;
+  void alarmOn(){} 
+  void alarmOff(){}
 
 	private:
-	bool turn(TurnDirection dir, LineSensorIndex ls_id, int n_times);
-	bool moveForward(TurnDirection dir, Switch stopper, int n_times);
+  
+  
+	//All the functions execute just 1 iteration and return
+	//0 when it didn't finish yet
+	//1 when it's done (go to the next action)
+	int turn(TurnDirection dir, LineSensorIndex stopper_sensor);
+	int goStraight(int speed, int n_line_crossings = 0);//we can create constants for default values of speed
+	int moveGripper(LifterAction movement);
+	int gripper(GripperPosition state);
 };
 
-
-bool turn(TurnDirection dir, Switch stopper, int n_times)
-{
-	//TODO
-	return false;
-}
-
-bool moveForward(TurnDirection dir, Switch stopper, int n_times)
-{
-	//TODO
-	return false;
-}
-
-bool moveGripper(GripperPosition pos)
-{
-	//TODO
-	return false;
-}
-
-bool lift(LifterAction dir)
-{
-	//TODO
-	return false;
-}
 #endif

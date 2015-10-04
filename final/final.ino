@@ -3,20 +3,35 @@
 #include "LineSensor.h"
 #include "FRED.h"
 #include "PidController.h"
+#include "Action.h"
+#include "RobotController.h"
 
 #define LEFT_MOTOR_PIN 4
 #define RIGHT_MOTOR_PIN 5
 
-LineSensor left_lf(A11);
-DriveTrain drive_train;
+RobotController robot;
+
+//we can put that declaration in a separated file (maybe we can create a "Action.h")
+Action action_sequence[] = 
+{//examples
+  Action(TURN, LEFT_TURN, BACK_LS),
+  Action(GO_STRAIGHT, 20, 2),
+  Action(GO_STRAIGHT, 20)//has to be specified
+  //...
+};
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
-  drive_train.attachMotors(LEFT_MOTOR_PIN, RIGHT_MOTOR_PIN);
-  //drive_train.stop();
+  /*//Initialize robot (we can create a simple function
+   robot.drive_train = DriveTrain(LEFT_MOTOR_PIN, RIGHT_MOTOR_PIN);
+   ...
+  */
 }
 
-void loop() {
+int current_action = 0;
 
+void loop() 
+{
+    current_action += robot.execute(action_sequence[current_action]);
 }

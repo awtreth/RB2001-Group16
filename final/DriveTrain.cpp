@@ -5,11 +5,11 @@
 //#define RIGHT_MOTOR_REF 40//right motor turns faster than the left  
 
 //This constructor didn't work (very weird)
-/*DriveTrain::DriveTrain(int left_motor_pin, int right_motor_pin)
+DriveTrain::DriveTrain(int left_motor_pin, int right_motor_pin)
 {
 	this->attachMotors(left_motor_pin, right_motor_pin);
   //this->stop();
-}*/
+}
 
 void DriveTrain::attachMotors(int left_motor_pin, int right_motor_pin)
 {
