@@ -5,6 +5,7 @@
 #include <Servo.h> //it has to be included in the main .ino file
 #include "PidController.h"
 
+//Just basic movments of fred
 class FRED//TODO: translation of FRED
 {
 

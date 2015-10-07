@@ -22,7 +22,8 @@ bool Switch::isPressed()
 	return false;
 }
 
-bool Switch::waitOn(int how_long)
+//FORGET THESE FUNCTIONS
+/*bool Switch::waitOn(int how_long)
 {
 	//TODO
 	return false;
@@ -43,4 +44,4 @@ bool Switch::waitChange(int how_long)
 void Switch::setPollingPeriod(int time)
 {
 	
-}
+}*/

@@ -12,6 +12,8 @@ class LineSensor
 	
 	LineSensor(int pin_number);
 	
+	void attachPin(int pin_number);
+	
 	int read();
 	
 	bool isWhite();

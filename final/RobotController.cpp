@@ -29,11 +29,11 @@ int RobotController::turn(TurnDirection dir, LineSensorIndex stopper_sensor)
 	return 0;
 }
 
-int RobotController::goStraight(int speed, int n_line_crossings)
+/*int RobotController::goStraight(int speed, int n_line_crossings)
 {
 	//TODO
 	return 0;
-}
+}*/
 
 int RobotController::moveGripper(LifterAction movement)
 {

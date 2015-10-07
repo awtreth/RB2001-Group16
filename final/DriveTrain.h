@@ -4,8 +4,8 @@
 #include "Arduino.h"
 #include <Servo.h> //it has to be included in the main .ino file
 
-#define DEFAULT_SPEED 		50
-#define MOTOR_COMPENSATION 	.1
+#define DEFAULT_SPEED 		45
+#define MOTOR_COMPENSATION 	.12
 
 class DriveTrain
 {
@@ -16,8 +16,10 @@ class DriveTrain
 	
 	public:
 	
-	DriveTrain(){}
-	DriveTrain(int left_motor_pin, int right_motor_pin);//This constructor didn't work with global variable
+	DriveTrain(){}//may can set default values for pins
+	
+	//This constructor didn't work at global scope (I don't know why)
+	DriveTrain(int left_motor_pin, int right_motor_pin);
 	
 	void attachMotors(int left_motor_pin, int right_motor_pin);
 	void drive(int left_value, int right_value);

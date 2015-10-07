@@ -1,7 +1,7 @@
 #include "LineSensor.h"
 
-#define BLACK_REF 600 //TODO: calibrate it
-#define WHITE_REF 100 //TODO: calibrate it
+#define BLACK_REF 600
+#define WHITE_REF 100
 
 #include "Arduino.h"
 
@@ -13,8 +13,13 @@ LineSensor::LineSensor()
 
 LineSensor::LineSensor(int pin_number)
 {
-	this->pin = pin_number;
+	this->attachPin(pin_number);
 }
+	
+void LineSensor::attachPin(int pin_number)
+{
+	this->pin = pin_number;
+}	
 	
 int LineSensor::read()
 {

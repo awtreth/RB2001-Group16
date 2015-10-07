@@ -30,8 +30,8 @@ void DriveTrain::drive(int left_value, int right_value)//-90~90
 	left_value = constrain(left_value, -90,90);
 	right_value = constrain(right_value, -90,90);
 
-  //right_value *= (1.-MOTOR_COMPENSATION);
-  //left_value *= (1.+MOTOR_COMPENSATION);
+  right_value *= (1.-MOTOR_COMPENSATION);
+  left_value *= (1.+MOTOR_COMPENSATION);
 
 	left_value = map(left_value, -90,90,0,180);
 	right_value = map(right_value, -90,90,180,0);
