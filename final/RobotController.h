@@ -44,7 +44,7 @@ class RobotController
 	
 	//int moveBackward(int time);//maybe we will need to consider the time
 	
-	int moveGripper(LifterAction movement);
+	/*int moveGripper(LifterAction movement);
 	int moveGripperUp();
 	int moveGripperDown();
 
@@ -54,7 +54,7 @@ class RobotController
 	
 	int gripper(GripperPosition state);
 	int openGripper();
-	int closeGripper();
+	int closeGripper();*/
 };
 
 #endif

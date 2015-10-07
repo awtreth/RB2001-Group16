@@ -33,7 +33,7 @@ int RobotController::turn(TurnDirection dir, LineSensorIndex stopper_sensor)
 {
 	//TODO
 	return 0;
-}*/
+}
 
 int RobotController::moveGripper(LifterAction movement)
 {
@@ -45,4 +45,4 @@ int RobotController::gripper(GripperPosition state)
 {
 	//TODO
 	return 0;
-}
+}*/

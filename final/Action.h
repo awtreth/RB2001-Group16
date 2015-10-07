@@ -1,6 +1,8 @@
 #ifndef ACTION_H
 #define ACTION_H
 
+#include "FRED.h"
+
 enum ActionType {
 	//general actions
 	TURN, MOVE_FORWARD, MOVE_BACKWARD,
@@ -14,9 +16,6 @@ enum ActionType {
 };
 
 enum TurnDirection{LEFT_TURN, RIGHT_TURN, TURN_180};
-enum GripperPosition{OPEN, CLOSE};
-enum LifterAction{MOVE_UP, MOVE_DOWN};
-enum GripperOrientation{HORIZONTAL, VERTICAL};
 
 enum LineSensorIndex{LEFT_LS, RIGHT_LS, SIDE_LS, BACK_LS, N_LINE_SENSORS};
 enum SwitchIndex{FRONT_SW, N_SWITCHES};

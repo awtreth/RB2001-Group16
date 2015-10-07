@@ -5,6 +5,10 @@
 #include <Servo.h> //it has to be included in the main .ino file
 #include "PidController.h"
 
+enum GripperPosition{OPEN, CLOSE};
+enum LifterAction{MOVE_UP, MOVE_DOWN};
+enum GripperOrientation{HORIZONTAL, VERTICAL};
+
 //Just basic movments of fred
 class FRED//TODO: translation of FRED
 {
@@ -13,6 +17,7 @@ class FRED//TODO: translation of FRED
 	int gripper_servo_pin;
 	Servo lift_motor;
 	Servo turn_gripper;
+	//Switch fred_stopper; //TODO: implement it if it's necessary
 	
 	//PidController lift_speed_pid;
 	//PidController lift_pos_pid;
@@ -23,10 +28,18 @@ class FRED//TODO: translation of FRED
 	FRED(int gripper_servo_pin, int lift_motor_pin, int turn_gripper_pin);
 	
 	void attachPins(int gripper_servo_pin, int lift_motor_pin, int turn_gripper_pin);
-	void lift();
-	void turnGripper();
-	void closeGripper();
-	void openGripper();
+
+	int moveGripper(LifterAction movement);
+	int moveGripperUp();
+	int moveGripperDown();
+
+	int turnGripper(GripperOrientation orientation);
+	int turnGripperHorizontal();
+	int turnGripperVertical();
+	
+	int gripper(GripperPosition state);
+	int openGripper();
+	int closeGripper();
 };
 
 #endif
