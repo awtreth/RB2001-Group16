@@ -2,7 +2,7 @@
 #include "PidController.h"
 #include "Arduino.h"
 
-#define DEFAULT_SAMPLE_TIME 100
+#define DEFAULT_SAMPLE_TIME 75
 
 PidController::PidController()
 {

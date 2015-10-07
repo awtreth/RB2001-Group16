@@ -18,6 +18,15 @@ void DriveTrain::attachMotors(int left_motor_pin, int right_motor_pin)
 	this->right_motor.attach(right_motor_pin);
 }
 
+void DriveTrain::attachLnSensors(int left_pin, int right_pin, int side_pin, int back_pin)
+{
+  ln_sensor[LEFT_LS].attachPin(left_pin);
+  ln_sensor[RIGHT_LS].attachPin(right_pin);
+  ln_sensor[SIDE_LS].attachPin(side_pin);
+  ln_sensor[BACK_LS].attachPin(back_pin);
+}
+
+
 void DriveTrain::stop()
 {
   this->drive(0,0);

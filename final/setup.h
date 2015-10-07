@@ -8,34 +8,34 @@
 #define LN_TRACK_KD 45
 #define LN_TRACK_KI 0
 
-#define LEFT_MOTOR_PIN 4
-#define RIGHT_MOTOR_PIN 5
+#define LEFT_MOTOR_PIN  6
+#define RIGHT_MOTOR_PIN 7
 
-#define LEFT_LN_SENSOR_PIN 	A11
-#define RIGHT_LN_SENSOR_PIN A10
-#define SIDE_LN_SENSOR_PIN 	A9
-#define BACK_LN_SENSOR_PIN 	A8
+#define LEFT_LN_SENSOR_PIN 	A1
+#define RIGHT_LN_SENSOR_PIN A0
+#define SIDE_LN_SENSOR_PIN 	A3
+#define BACK_LN_SENSOR_PIN 	A2
 
-#define FRONT_SWITCH_PIN 6
+#define FRONT_SWITCH_PIN 8
 
 RobotController robot;
+
 
 void mySetup()
 {
   //SETUP DRIVE_TRAIN
-  DriveTrain dtrain;
-  dtrain.attachMotors(LEFT_MOTOR_PIN, RIGHT_MOTOR_PIN);
-  dtrain.attachLnSensors(LEFT_LN_SENSOR_PIN, RIGHT_LN_SENSOR_PIN, SIDE_LN_SENSOR_PIN, BACK_LN_SENSOR_PIN);//at first we'll try without back_pin
-  dtrain.attachStopper(FRONT_SWITCH_PIN);//at first we'll try without back_pin
-  //dtrain.pid.setConstants();
-  //dtrain.pid.setLimits();
+  //DriveTrain dtrain;
+  robot.drive_train.attachMotors(LEFT_MOTOR_PIN, RIGHT_MOTOR_PIN);
+  robot.drive_train.attachLnSensors(LEFT_LN_SENSOR_PIN, RIGHT_LN_SENSOR_PIN, SIDE_LN_SENSOR_PIN, BACK_LN_SENSOR_PIN);//at first we'll try without back_pin
+  //dtrain.attachStopper(FRONT_SWITCH_PIN);//at first we'll try without back_pin
+  robot.drive_train.pid.setConstants(LN_TRACK_KP, LN_TRACK_KI, LN_TRACK_KD);
+  robot.drive_train.pid.setLimits(-90,+90);
 
   //SETUP FRED
-  FRED fred;
+  //FRED fred;
   //fred.attachPins(...);
 
-  robot.drive_train = dtrain;
-  robot.fred= fred;
+  //robot.fred= fred;
   //robot.setAlarmPin(...);
 
   //...

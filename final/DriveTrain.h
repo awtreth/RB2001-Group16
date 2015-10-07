@@ -26,7 +26,7 @@ class DriveTrain
 	
 	void attachMotors(int left_motor_pin, int right_motor_pin);
 	void attachLnSensors(int left_pin, int right_pin, int side_pin, int back_pin = 0);//at first we'll try without back_pin
-	void attachStopper(int stopper_pin);//at first we'll try without back_pin
+	//void attachStopper(int stopper_pin);//at first we'll try without back_pin
 	
 	void drive(int left_value, int right_value);
 
