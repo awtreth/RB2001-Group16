@@ -14,6 +14,7 @@ class RobotController
 	FRED fred;
 	
 	int execute(Action action);
+	//int execute(MacroAction action_seq);
 	int stop();
 	int resume();
 

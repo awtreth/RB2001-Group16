@@ -71,6 +71,14 @@ void DriveTrain::turn(int speed)//-90~90
 	this->drive(speed, -speed);
 }
 
+void DriveTrain::turn(TurnDirection dir, int speed)//-90~90
+{
+  if(dir == LEFT_TURN)
+    this->turnLeft(speed);
+  else
+    this->turnRight(speed);
+}
+
 
 //SMART  MOVMENTS
 void DriveTrain::resume()
@@ -80,8 +88,32 @@ void DriveTrain::resume()
 	
 int DriveTrain::turn90(TurnDirection dir)
 {
+  static bool came_from_white = false;
+  static bool already_turn = false;
+
+  if(!already_turn)
+  {
+    this->turn(dir);
+    already_turn = true;
+  }
   
-	//TODO
+	if(!came_from_white)
+  {
+    if(ln_sensor[BACK_LS].isWhite())
+      came_from_white = true;
+  }
+
+  if(came_from_white)
+  {
+     if(ln_sensor[BACK_LS].isBlack())
+     {
+        this->stop();
+        came_from_white = false;
+        //already_turn = false;
+        return DONE;
+     }
+  }
+  
 	return NOT_DONE_YET;
 }
 
@@ -99,12 +131,44 @@ int DriveTrain::turn90Right()
 	
 int DriveTrain::moveForward(int n_line_crossings, int speed)
 {
+	static bool new_move= true;
+  static int missing_lines = n_line_crossings;
+  static bool came_from_white = false;
+  
+  if(new_move)
+  {
+    if(n_line_crossings == 0) n_line_crossings = -1;
+    missing_lines = n_line_crossings;
+    new_move = false;
+  }
+  
 	int value = pid.calc(ln_sensor[RIGHT_LS].read()-ln_sensor[LEFT_LS].read());
   
   this->drive(speed + value, speed - value);
 
-  //TODO: line_crossings
-  
+  //FIXME: the next 2 if statements are repeated in turn90. Maybe we can create a method for this
+  if(!came_from_white)
+  {
+    if(ln_sensor[SIDE_LS].isWhite())
+      came_from_white = true;
+  }
+
+  if(came_from_white)
+  {
+     if(ln_sensor[SIDE_LS].isBlack())
+     {
+        came_from_white = false;
+        missing_lines--;
+     }
+  }
+
+  if(missing_lines == 0  || stopper.isPressed())
+  {
+    this->stop();
+    new_move = true;
+    return DONE;
+  }
+
 	return NOT_DONE_YET;
 }
 

@@ -12,7 +12,7 @@
 #define MOTOR_COMPENSATION 	.12
 
 enum LineSensorIndex{LEFT_LS, RIGHT_LS, SIDE_LS, BACK_LS, N_LINE_SENSORS};
-enum TurnDirection{LEFT_TURN, RIGHT_TURN, TURN_180};
+enum TurnDirection{LEFT, RIGHT, TURN_180};
 
 class DriveTrain
 {
@@ -26,7 +26,7 @@ class DriveTrain
 	
 	void attachMotors(int left_motor_pin, int right_motor_pin);
 	void attachLnSensors(int left_pin, int right_pin, int side_pin, int back_pin = 0);//at first we'll try without back_pin
-	//void attachStopper(int stopper_pin);//at first we'll try without back_pin
+	//void attachStopper(int stopper_pin);//at first we'll try without back_pin //TODO
 	
 	void drive(int left_value, int right_value);
 
@@ -35,9 +35,11 @@ class DriveTrain
 	void driveEqual(int speed = DEFAULT_SPEED);
 	
 	void turn(int speed);
-	void turnLeft(int speed = DEFAULT_SPEED/2);
-	void turnRight(int speed = DEFAULT_SPEED/2);
-	
+	void turn(TurnDirection dir, int speed = DEFAULT_SPEED*2/3);
+	void turnLeft(int speed = DEFAULT_SPEED*2/3);
+	void turnRight(int speed = DEFAULT_SPEED*2/3);
+
+  
 	//SMART MOVMENTS
 	
   PidController pid;

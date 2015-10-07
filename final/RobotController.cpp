@@ -3,6 +3,15 @@
 
 int RobotController::execute(Action action)
 {
+  switch(action.type)
+  {
+    case MOVE_FORWARD: return this->drive_train.moveForward(action.n_line_crossings); break;
+    case TURN: return this->drive_train.turn90(action.direction); break;
+    
+    default: Serial.println("Default case in RobotController::execute(action)");
+  }
+
+  
 	//TODO
 	return 0;
 }

@@ -5,7 +5,7 @@
 
 //PIN NUMBERS
 #define LN_TRACK_KP .017
-#define LN_TRACK_KD 45
+#define LN_TRACK_KD 40
 #define LN_TRACK_KI 0
 
 #define LEFT_MOTOR_PIN  6
@@ -19,6 +19,14 @@
 #define FRONT_SWITCH_PIN 8
 
 RobotController robot;
+
+Action action_sequence[] = 
+{
+  Action(MOVE_FORWARD, 1),
+  Action(TURN, LEFT),
+  Action(MOVE_FORWARD)
+  //...
+};
 
 
 void mySetup()
@@ -41,20 +49,13 @@ void mySetup()
   //...
 }
 
+
 /*MacroAction aproxTakeRodTurn = {
 	Action(MOVE_GRIPPER, )
 	Action(MOVE_FORWARD, SLOW_SPEED),
 	Action(MOVE_GRIPPER, ),
 };
 MacroAction return
-
-
-Action action_sequence[] = 
-{//examples
-  Action(TURN, LEFT_TURN, BACK_LS),
-  Action(GO_STRAIGHT, 20, 2),
-  Action(GO_STRAIGHT, 20)//has to be specified
-  //...
-};*/
+*/
 
 #endif
