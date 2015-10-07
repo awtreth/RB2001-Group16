@@ -73,7 +73,7 @@ void DriveTrain::turn(int speed)//-90~90
 
 void DriveTrain::turn(TurnDirection dir, int speed)//-90~90
 {
-  if(dir == LEFT_TURN)
+  if(dir == LEFT)
     this->turnLeft(speed);
   else
     this->turnRight(speed);

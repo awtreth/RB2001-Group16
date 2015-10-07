@@ -24,5 +24,5 @@ int current_action = 0;
 
 void loop() 
 {
-  current_action = += robot.execute(action_sequence[current_action]);
+  current_action += robot.execute(action_sequence[current_action]);
 }
