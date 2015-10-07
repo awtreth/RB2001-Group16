@@ -19,30 +19,19 @@ int RobotController::resume()
 	return 0;
 }
 
-
-//All the functions execute just 1 iteration and return
-//0 when it didn't finish yet
-//1 when it's done (go to the next action)
-int RobotController::turn(TurnDirection dir, LineSensorIndex stopper_sensor)
+void RobotController::setAlarmPin(int pin_number)
 {
-	//TODO
-	return 0;
+	alarm_pin = pin_number;
+	pinMode(pin_number, OUTPUT);
 }
 
-/*int RobotController::goStraight(int speed, int n_line_crossings)
+void RobotController::alarmOn()
 {
-	//TODO
-	return 0;
+	
+} 
+
+void RobotController::alarmOff()
+{
+	
 }
 
-int RobotController::moveGripper(LifterAction movement)
-{
-	//TODO
-	return 0;
-}
-
-int RobotController::gripper(GripperPosition state)
-{
-	//TODO
-	return 0;
-}*/

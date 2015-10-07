@@ -1,5 +1,6 @@
 #include "Arduino.h"
 #include "DriveTrain.h"
+#include "util.h"
 
 //#define LEFT_MOTOR_REF 25  
 //#define RIGHT_MOTOR_REF 40//right motor turns faster than the left  
@@ -40,7 +41,7 @@ void DriveTrain::drive(int left_value, int right_value)//-90~90
 	this->left_motor.write(left_value);
 }
 
-void DriveTrain::goStraight(int speed)//-90~90
+void DriveTrain::driveEqual(int speed)//-90~90
 {
 	this->drive(speed, speed);
 }
@@ -59,4 +60,52 @@ void DriveTrain::turnRight(int speed)//0-90
 void DriveTrain::turn(int speed)//-90~90
 {
 	this->drive(speed, -speed);
+}
+
+
+//SMART  MOVMENTS
+void DriveTrain::resume()
+{
+	//TODO
+}
+	
+int DriveTrain::turn90(TurnDirection dir)
+{
+  
+	//TODO
+	return NOT_DONE_YET;
+}
+
+int DriveTrain::turn90Left()
+{
+	//TODO
+	return NOT_DONE_YET;
+}
+
+int DriveTrain::turn90Right()
+{
+	//TODO
+	return NOT_DONE_YET;
+}
+	
+int DriveTrain::moveForward(int n_line_crossings, int speed)
+{
+	int value = pid.calc(ln_sensor[RIGHT_LS].read()-ln_sensor[LEFT_LS].read());
+  
+  this->drive(speed + value, speed - value);
+
+  //TODO: line_crossings
+  
+	return NOT_DONE_YET;
+}
+
+int DriveTrain::moveBackward(int n_line_crossings, int speed)
+{
+	int value = -pid.calc(ln_sensor[RIGHT_LS].read()-ln_sensor[LEFT_LS].read());
+  
+  this->drive(-speed + value, -speed - value);
+
+  //TODO: line_crossings
+  
+	return NOT_DONE_YET;
 }

@@ -1,5 +1,6 @@
 #include "Arduino.h"
 #include "FRED.H"
+#include "util.h"
 
 FRED::FRED()
 {
@@ -23,55 +24,55 @@ void FRED::attachPins(int gripper_servo_pin, int lift_motor_pin, int turn_grippe
 int FRED::moveGripper(LifterAction movement)
 {
 	//TODO
-	return 0;
+	return NOT_DONE_YET;
 }
 
 int FRED::moveGripperUp()
 {
 	//TODO
-	return 0;
+	return NOT_DONE_YET;
 }
 
 int FRED::moveGripperDown()
 {
 	//TODO
-	return 0;
+	return NOT_DONE_YET;
 }
 
 //TurnGripper
 int FRED::turnGripper(GripperOrientation orientation)
 {
 	//TODO
-	return 0;
+	return NOT_DONE_YET;
 }
 
 int FRED::turnGripperHorizontal()
 {
 	//TODO
-	return 0;
+	return NOT_DONE_YET;
 }
 
 int FRED::turnGripperVertical()
 {
 	//TODO
-	return 0;
+	return NOT_DONE_YET;
 }
 
 //gripperOpenClose
 int FRED::gripper(GripperPosition state)
 {
 	//TODO
-	return 0;
+	return NOT_DONE_YET;
 }
 
 int FRED::openGripper()
 {
 	//TODO
-	return 0;
+	return NOT_DONE_YET;
 }
 
 int FRED::closeGripper()
 {
 	//TODO
-	return 0;
+	return NOT_DONE_YET;
 }

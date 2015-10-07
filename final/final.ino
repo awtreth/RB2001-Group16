@@ -7,10 +7,8 @@
 #include "Action.h"
 #include "RobotController.h"
 
-#define LEFT_MOTOR_PIN 6
-#define RIGHT_MOTOR_PIN 7
+#include "setup.h"
 
-RobotController robot;
 
 PidController pid;
 LineSensor left_ls(A1);

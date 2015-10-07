@@ -21,7 +21,7 @@ class PidController
 	void setLimits(double min, double max);
 	
 	void setSampleTime(int stime);//in ms
-	
+
 	double kp, ki, kd;
   
   private:

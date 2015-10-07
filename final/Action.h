@@ -2,6 +2,7 @@
 #define ACTION_H
 
 #include "FRED.h"
+#include "DriveTrain.h"
 
 enum ActionType {
 	//general actions
@@ -14,11 +15,6 @@ enum ActionType {
 	
 	N_ACTION_TYPE
 };
-
-enum TurnDirection{LEFT_TURN, RIGHT_TURN, TURN_180};
-
-enum LineSensorIndex{LEFT_LS, RIGHT_LS, SIDE_LS, BACK_LS, N_LINE_SENSORS};
-enum SwitchIndex{FRONT_SW, N_SWITCHES};
 
 class Action
 {
