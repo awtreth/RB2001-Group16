@@ -2,38 +2,36 @@
 #define BLUETOOTH_H
 
 #include "Arduino.h"
-#include <TimerOne.h>
-#include <ReactorProtocol.h>
-#include <BluetoothMaster.h>
-#include <BluetoothClient.h>
+#include "BluetoothMaster.h"
+#include "ReactorProtocol.h"
 
 class Bluetooth
 {
 public:
   Bluetooth();
   
-  bool sendHB; //Timer based bool on whether to send the heartbeat
+  bool sendHB_flag; //Timer based bool _on whether to send the heartbeat
   bool Go; //Public bool on whether to go or not. Changeable by Bluetooth command
   int teamName; //The Team name
   int radLevel; //0 for none, 1 for Low, 2 for High. ONLY called on timer flag and with radLevel > 0
 
 
-  typedef struct storageTube{ //Stores the storage tube availability (Should these be objects????)
+  struct StorageTube{ //Stores the storage tube availability (Should these be objects????)
     bool tube1;
     bool tube2;
     bool tube3;
     bool tube4;
-  } storageTube;
+  };
 
-  typedef struct supplyTube{ //Stores the supply tube availability
+  struct SupplyTube{ //Stores the supply tube availability
     bool tube1;
     bool tube2;
     bool tube3;
     bool tube4;
-  } supplyTube;
+  };
 
 
-  enum messageType{ //Different types of message types to be recieved
+  enum MessageType{ //Different types of message types to be recieved
     STORAGE = 0x01,
     SUPPLY = 0x02,
     RADIATION = 0x03,
@@ -43,7 +41,7 @@ public:
     HEARTBEAT = 0x07
   };
 
-  enum movementStatus{ //Movement Status
+  enum MovementStatus{ //Movement Status
     STOPPED = 0x01,
     MOVINGTELE = 0x02,
     MOVINGAUTO = 0x03
@@ -61,12 +59,12 @@ public:
     DRIVINGSTORAGE = 0x04,
     DRIVINGSUPPLY = 0x05,
     IDLE = 0x06
-  }
+  };
   
   void update(); //Runs every loop to update Bluetooth info
   void setup(); //Sets up the relevant information in the Setup
 
-  void timerISR(); //ISR to send the heartbeat and any relevant info
+  //static void timerISR(); //ISR to send the heartbeat and any relevant info
 
   void updateStorage(byte info); //This updates the Storage struct with the availability
   void updateSupply(byte info); //This updates the Supply struct with the availability
@@ -76,14 +74,13 @@ public:
   void sendStatus(byte moveStat, byte gripStat, byte opStat); //packages and sends a byte with the given status 
   
   void sendNxtPkt(); //Sends the next packet in the queue
-  Queue createQueue(int max_entries); //creates a queue 
-  int enqueue(Queue Q, byte* pkt); //adds the packet to the queue
-  byte* dequeue(Queue Q); //dequeues the next pointer
+  //Queue createQueue(int max_entries); //creates a queue 
+  //int enqueue(Queue Q, byte* pkt); //adds the packet to the queue
+  //byte* dequeue(Queue Q); //dequeues the next pointer
 
 private:
 
   byte pktS[10]; //Variables for sending the packets
-  int szS;
   byte dataS[3];
 
   byte pktR[10]; //Variables for recieving the packets
@@ -92,8 +89,11 @@ private:
 
   volatile unsigned long elapsedTics; //for the ISR
 
-	ReactorProtocol pcol;
 	//BluetoothClient bt;
 	BluetoothMaster btmaster;
-
+	ReactorProtocol pcol;
+	StorageTube storageTube;
+	SupplyTube supplyTube;
 };
+
+#endif

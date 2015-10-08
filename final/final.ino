@@ -5,6 +5,11 @@
 #include "PidController.h"
 #include "Action.h"
 #include "RobotController.h"
+#include "TimerOne.h"
+#include "ReactorProtocol.h"
+#include "BluetoothMaster.h"
+#include "BluetoothClient.h"
+#include "Bluetooth.h"
 
 #include "util.h"
 

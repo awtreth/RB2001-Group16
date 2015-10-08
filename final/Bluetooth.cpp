@@ -1,4 +1,5 @@
 #include "Bluetooth.h"
+#include "TimerOne.h"
 
 #define TEAM_NUMBER 16
 
@@ -13,7 +14,7 @@ Bluetooth::Bluetooth(){ //Initializes the Bluetooth object
  */
 void Bluetooth::setup()
 {
-  this->sendHB = false;
+  this->sendHB_flag = false;
   this->Go = false;
   this->teamName = 16;
   this->radLevel = 0; 
@@ -21,7 +22,7 @@ void Bluetooth::setup()
   
   Serial3.begin(115200); //Serial3 for the Mega
   Timer1.initialize(1000*100); //Triggers every 100 ms 
-  Timer1.attachInterrupt(timerISR);
+  //Timer1.attachInterrupt(this->timerISR); //FIXME
   pcol.setDst(0x00); //Always set to broadcast to everyone //FIXME
   elapsedTics = 0; //sets the elapsedTics
 
@@ -31,7 +32,7 @@ void Bluetooth::setup()
 void Bluetooth::update(){
 	
   if(btmaster.readPacket(pktR)){ //If there is a packet to read
-	  //TODO: create constants instead of numbers for array index
+	  //TODO: create constants instead of magic numbers for array index
     if(pcol.getData(pktR, dataR, type) && (dataR[4] == TEAM_NUMBER || dataR[4] == 0x00)){ //If it's addressed to us or all
       switch (type) { //state machine for the types of packets to be read
         case STORAGE:
@@ -57,49 +58,52 @@ void Bluetooth::update(){
  * @param info the information byte that is read from Bluetooth
  */
 void Bluetooth::updateStorage(byte info){
-  storageTube->tube1 = bitread(info, 0); //if LSB is on, sets the bool in storageTube
-  storageTube->tube2 = bitread(info, 1);
-  storageTube->tube3 = bitread(info, 2);
-  storageTube->tube4 = bitread(info, 3);
+  storageTube.tube1 = ((info & 0x01) == 0x01); //if LSB is on, sets the bool in storageTube
+  storageTube.tube2 = ((info & 0x02) == 0x02);
+  storageTube.tube3 = ((info & 0x03) == 0x03);
+  storageTube.tube4 = ((info & 0x04) == 0x04);
 }
 
 /** Updates the supply tubes with the relevant booleans
  * @param info the information byte that was read 
  */
 void Bluetooth::updateSupply(byte info){
-  supplyTube->tube1 = bitread(info, 0); //if LSB is on, sets the bool in supplyTube
-  supplyTube->tube2 = bitread(info, 1);
-  supplyTube->tube3 = bitread(info, 2);
-  supplyTube->tube4 = bitread(info, 3);
+  supplyTube.tube1 = ((info & 0x01) == 0x01); //if LSB is on, sets the bool in supplyTube
+  supplyTube.tube2 = ((info & 0x02) == 0x02);
+  supplyTube.tube3 = ((info & 0x03) == 0x03);
+  supplyTube.tube4 = ((info & 0x04) == 0x04);
 }
 
 /** sends the Heartbeat
  * needs to be wrapped in a timed statement so as not to spam 
  */ 
 void Bluetooth::sendHB(){
-  this->sendHB? = false;
-  szS = pcol.createPkt(HEARTBEAT, dataS, pktS); //creates the packt
-  enqueue(Qs, &szS); //stores the packet info and the size
-  enqueue(Qp, &pktS);
+  int size = pcol.createPkt(HEARTBEAT, dataS, pktS); //creates the packt
+  //TODO: I think is better to make an occupied flag
+  //enqueue(Qs, &szS); //stores the packet info and the size
+  //enqueue(Qp, &pktS);
 }
 
 /** Sends the radiation level
  * @param radLevel what radiation level needs to be sent
  */ 
 void Bluetooth::sendRadiation(int radLevel){
+  //create named constants instead of magic numbers 
   if(radLevel == 1){ //determines radiation and sets the data correctly
-    data[0] = 0x2C;
+    dataS[0] = 0x2C;
   }else if(radLevel == 2){
-    data[0] = 0xFF;
+    dataS[0] = 0xFF;
   }
-  szS = pcol.createPkt(RADIATION, dataS, pktS);//creates and enqueues the packet
-  enqueue(Qs, &szS);
-  enqueue(Qp, &pktS);
+  int size = pcol.createPkt(RADIATION, dataS, pktS);//creates and enqueues the packet
+  
+  //TODO: actually send
+  //enqueue(Qs, &szS);
+  //enqueue(Qp, &pktS);
 }
 
 /** Sets the Flag and sends next packet upon proper time
  */
-void Bluetooth::timerISR(){
+/*static void Bluetooth::timerISR(){
   noInterrupts(); //stops the interrupts 
   elapsedTics++; //increments the tics
   if(elapsedTics % 20){ //every 2s
@@ -108,7 +112,8 @@ void Bluetooth::timerISR(){
     sendNxtPkt(); //send the next packet in the queue
   }
   interrupts(); //reenables 
-}
+}*/
+
 /** Creates a sends a packet with information about movement, gripper, and opstat
  * @param moveStat the movement status, reference enum
  * @param gripStat the gripper status, reference enum
@@ -118,36 +123,39 @@ void Bluetooth::sendStatus(byte moveStat, byte gripStat, byte opStat){
   dataS[0] = moveStat; //sets the correct data bytes to the information given
   dataS[1] = gripStat;
   dataS[2] = opStat;
-  szS = pcol.createPkt(STATUS, dataS, pktS); //creates and enqueues the info
-  enqueue(Qs, &szS);
-  enqueue(Qp, &pktS);
+  int size = pcol.createPkt(STATUS, dataS, pktS); //creates and enqueues the info
+  //TODO: send
+  //enqueue(Qs, &szS);
+  //enqueue(Qp, &pktS);
 }
+
+
 /** creates a Queue with max entries as stated
  * @param max_entries the maximum size of the array
  * @return the Queue struct created
  */
-Queue Bluetooth::createQueue(int max_entries){
-  //TODO
-}
+//~ Queue Bluetooth::createQueue(int max_entries){
+  //~ //TODO
+//~ }
 
 /**adds an array to the Queue
  * @param Q the queue to add the array to
  * @param pkt the pkt pointer to be added
  * @return int 0 for success, -1 for failure (too full)
  */
-int Bluetooth::enqueue(Queue Q, byte* pkt){
-  //TODO
-}
+//~ int Bluetooth::enqueue(Queue Q, byte* pkt){
+  //~ //TODO
+//~ }
 /** takes the first entry of the Q and returns it 
  * @param Q the queue to dequeue
  * @return the pointer that was dequeued
  */
-byte* Bluetooth::dequeue(Queue Q){
-  //TODO
-}
+//~ byte* Bluetooth::dequeue(Queue Q){
+  //~ //TODO
+//~ }
 /** dequeus the next packet and sends it 
  */
-void sendNxtPkt(){
-  //TODO dequeue relevant info
-  btmaster.sendPkt(pkt, sz);
-}
+//~ void sendNxtPkt(){
+  //~ //TODO dequeue relevant info
+  //~ btmaster.sendPkt(pkt, sz);
+//~ }
