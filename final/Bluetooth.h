@@ -1,37 +1,18 @@
-#ifndef ARDUINO_H
-#define ARDUINO_H
-#include "Arduino.h"
-#endif
-
-#ifndef BLUETOOTHCLIENT_H
-#define BLUETOOTHCLIENT_H
-#include <BluetoothClient.h">
-#endif
-
-#ifndef BLUETOOTHMASTER_H
-#define BLUETOOTHMASTER_H
-#include <BluetoothMaster.h>
-#endif
-
-#ifndef REACTORPROTOCOL_H
-#define REACTORPROTOCOL_H
-#include <ReactorProtocol.h> 
-#endif
-
-#ifndef TIMERONE_H
-#define TIMERONE_H
-#include <TimerOne.h>
-#endif
-
 #ifndef BLUETOOTH_H
 #define BLUETOOTH_H
+
+#include "Arduino.h"
+#include <TimerOne.h>
+#include <ReactorProtocol.h>
+#include <BluetoothMaster.h>
+#include <BluetoothClient.h>
 
 class Bluetooth
 {
 public:
   Bluetooth();
   
-  bool sendHB?; //Timer based bool on whether to send the heartbeat
+  bool sendHB; //Timer based bool on whether to send the heartbeat
   bool Go; //Public bool on whether to go or not. Changeable by Bluetooth command
   int teamName; //The Team name
   int radLevel; //0 for none, 1 for Low, 2 for High. ONLY called on timer flag and with radLevel > 0
@@ -82,8 +63,8 @@ public:
     IDLE = 0x06
   }
   
-  void BluetoothPeriodic(); //Runs every loop to update Bluetooth info
-  void BluetoothSetup(); //Sets up the relevant information in the Setup
+  void update(); //Runs every loop to update Bluetooth info
+  void setup(); //Sets up the relevant information in the Setup
 
   void timerISR(); //ISR to send the heartbeat and any relevant info
 
@@ -110,4 +91,9 @@ private:
   byte type;
 
   volatile unsigned long elapsedTics; //for the ISR
+
+	ReactorProtocol pcol;
+	//BluetoothClient bt;
+	BluetoothMaster btmaster;
+
 };

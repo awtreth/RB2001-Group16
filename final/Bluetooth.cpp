@@ -1,30 +1,38 @@
 #include "Bluetooth.h"
 
+#define TEAM_NUMBER 16
+
 Bluetooth::Bluetooth(){ //Initializes the Bluetooth object
-  this->sendHB? = false;
-  this->Go = false;
-  this->teamName = 16;
-  this->radLevel = 0; 
-  ReactorProtocol pcol(byte(this.teamName));
-  BluetoothClient bt;
-  BluetoothMaster btmaster;
+  
+  this->setup();
+  //BluetoothClient bt;
+  //BluetoothMaster btmaster;
 }
 
 /** a callable function that takes care of the Bluetooth setup
  */
-void Bluetooth::BluetoothSetup(){
+void Bluetooth::setup()
+{
+  this->sendHB = false;
+  this->Go = false;
+  this->teamName = 16;
+  this->radLevel = 0; 
+  this->pcol = ReactorProtocol(byte(TEAM_NUMBER));
+  
   Serial3.begin(115200); //Serial3 for the Mega
   Timer1.initialize(1000*100); //Triggers every 100 ms 
   Timer1.attachInterrupt(timerISR);
-  pcol.setDst(0x00); //Always set to broadcast to everyone
+  pcol.setDst(0x00); //Always set to broadcast to everyone //FIXME
   elapsedTics = 0; //sets the elapsedTics
 
 }
 /** a callable function that takes care of reading the Bluetooth and taking care of the relevant assigns
  */
-void Bluetooth::BluetoothPeriodic(){
-  if(btmaster.readPacket(pkt)){ //If there is a packet to read
-    if(pcol.getData(pktR, dataR, type) && (dataR[4] == this.teamName || dataR[4] == 0x00)){ //If it's addressed to us or all
+void Bluetooth::update(){
+	
+  if(btmaster.readPacket(pktR)){ //If there is a packet to read
+	  //TODO: create constants instead of numbers for array index
+    if(pcol.getData(pktR, dataR, type) && (dataR[4] == TEAM_NUMBER || dataR[4] == 0x00)){ //If it's addressed to us or all
       switch (type) { //state machine for the types of packets to be read
         case STORAGE:
           updateStorage(dataR[0]); //updates the storage bools with the relevant info
