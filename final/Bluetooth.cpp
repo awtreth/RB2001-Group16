@@ -16,7 +16,7 @@ void Bluetooth::BluetoothSetup(){
   Serial3.begin(115200); //Serial3 for the Mega
   Timer1.initialize(1000*100); //Triggers every 100 ms 
   Timer1.attachInterrupt(timerISR);
-  pcol.setDst(0x00); //Always set to broadcast to everyone
+  pcol.setDst(0x00); //Set to broadcast to everyone
   elapsedTics = 0; //sets the elapsedTics
 
 }
@@ -49,27 +49,26 @@ void Bluetooth::BluetoothPeriodic(){
  * @param info the information byte that is read from Bluetooth
  */
 void Bluetooth::updateStorage(byte info){
-  storageTube->tube1 = bitread(info, 0); //if LSB is on, sets the bool in storageTube
-  storageTube->tube2 = bitread(info, 1);
-  storageTube->tube3 = bitread(info, 2);
-  storageTube->tube4 = bitread(info, 3);
+  storageTube->tube1 = ((info & 0x01) == 0x01); //if LSB is on, sets the bool in storageTube
+  storageTube->tube2 = ((info & 0x02) == 0x02);
+  storageTube->tube3 = ((info & 0x03) == 0x03);
+  storageTube->tube4 = ((info & 0x04) == 0x04);
 }
 
 /** Updates the supply tubes with the relevant booleans
  * @param info the information byte that was read 
  */
 void Bluetooth::updateSupply(byte info){
-  supplyTube->tube1 = bitread(info, 0); //if LSB is on, sets the bool in supplyTube
-  supplyTube->tube2 = bitread(info, 1);
-  supplyTube->tube3 = bitread(info, 2);
-  supplyTube->tube4 = bitread(info, 3);
+  supplyTube->tube1 = ((info & 0x01) == 0x01); //if LSB is on, sets the bool in supplyTube
+  supplyTube->tube2 = ((info & 0x02) == 0x02);
+  supplyTube->tube3 = ((info & 0x03) == 0x03);
+  supplyTube->tube4 = ((info & 0x04) == 0x04);
 }
 
 /** sends the Heartbeat
  * needs to be wrapped in a timed statement so as not to spam 
  */ 
 void Bluetooth::sendHB(){
-  this->sendHB? = false;
   szS = pcol.createPkt(HEARTBEAT, dataS, pktS); //creates the packt
   enqueue(Qs, &szS); //stores the packet info and the size
   enqueue(Qp, &pktS);
