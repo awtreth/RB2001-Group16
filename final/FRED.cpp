@@ -9,19 +9,13 @@ FRED::FRED()
 	
 }
 
-FRED::FRED(int gripper_servo_pin, int lift_motor_pin, int turn_gripper_pin, int stopper_pin)
+FRED::FRED(int lift_motor_pin, int turn_gripper_pin, int gripper_pin, int sw_pin)
 {
-	this->attachPins(gripper_servo_pin, lift_motor_pin, turn_gripper_pin, stopper_pin);
-}
-	
-void FRED::attachPins(int gripper_servo_pin, int lift_motor_pin, int turn_gripper_pin, int stopper_pin)
-{
-	this->gripper_servo_pin = gripper_servo_pin;
-	this->fred_stopper.setPin(stopper_pin);//Internal Pull-up by default
 	lift_motor.attach(lift_motor_pin);
-	turn_gripper.attach(turn_gripper_pin);
+  turn_gripper.attach(turn_gripper_pin);
+  gripper.attach(gripper_pin);
+  this->fred_stopper.setPin(sw_pin);//Internal Pull-up by default
 }
-
 
 //MoveGrippper
 int FRED::moveGripper(LifterAction movement)
@@ -38,8 +32,9 @@ int FRED::moveGripperUp()
 
 int FRED::moveGripperDown()
 {
-	//TODO
-	return NOT_DONE_YET;
+	lift_motor.write(/*TODO: Tune this value*/);
+  if (fred_stopper.isPressed()) return DONE;
+  else return NOT_DONE_YET;  
 }
 
 //TurnGripper

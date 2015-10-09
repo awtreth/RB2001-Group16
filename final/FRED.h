@@ -15,20 +15,18 @@ class FRED//TODO: translation of FRED
 {
 
 	private:
-	int gripper_servo_pin;
-  //int pot_pin;//potentiometer pin
-	Servo lift_motor;
+  
+  Servo lift_motor;
 	Servo turn_gripper;
-	
+  Servo gripper;
+  
 	public:
 
   Switch fred_stopper;
   //PidController lift_speed_pid; // Unnecessary, using limit switch instead
   
 	FRED(); // unused constructor
-	FRED(int gripper_servo_pin, int lift_motor_pin, int turn_gripper_pin, int stopper_pin);
-	
-	void attachPins(int gripper_servo_pin, int lift_motor_pin, int turn_gripper_pin, int stopper_pin);
+	FRED(int lift_motor_pin, int turn_gripper_pin, int gripper_pin, int sw_pin);
 
 	//the next functions return DONE(=1) or NOT_DONE_YET(=0)
 	//constants defined in "util.h"
