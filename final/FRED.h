@@ -28,7 +28,6 @@ class FRED//TODO: translation of FRED
 	
 	void attachPins(int gripper_servo_pin, int lift_motor_pin, int turn_gripper_pin);
 
-
 	//the next functions return DONE(=1) or NOT_DONE_YET(=0)
 	//constants defined in "util.h"
 	int moveGripper(LifterAction movement);
