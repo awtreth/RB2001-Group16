@@ -23,9 +23,9 @@ class FRED//TODO: translation of FRED
 	public:
 
   Switch fred_stopper;
-  //PidController lift_speed_pid;
+  //PidController lift_speed_pid; // Unnecessary, using limit switch instead
   
-	FRED();
+	FRED(); // unused constructor
 	FRED(int gripper_servo_pin, int lift_motor_pin, int turn_gripper_pin, int stopper_pin);
 	
 	void attachPins(int gripper_servo_pin, int lift_motor_pin, int turn_gripper_pin, int stopper_pin);

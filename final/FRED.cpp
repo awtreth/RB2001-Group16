@@ -32,7 +32,7 @@ int FRED::moveGripper(LifterAction movement)
 
 int FRED::moveGripperUp()
 {
-	//TODO
+	
 	return NOT_DONE_YET;
 }
 

@@ -80,11 +80,6 @@ public:
   void sendHB(); //Sends the heartbeat
   void sendRadiation(int radLevel); //Sends the corresponding rad level
   void sendStatus(byte moveStat, byte gripStat, byte opStat); //packages and sends a byte with the given status 
-  
-  void sendNxtPkt(); //Sends the next packet in the queue
-  //Queue createQueue(int max_entries); //creates a queue 
-  //int enqueue(Queue Q, byte* pkt); //adds the packet to the queue
-  //byte* dequeue(Queue Q); //dequeues the next pointer
 
 	void setInputPointers(StorageTube* storage_tube, SupplyTube* supply_tube, bool* stop_flag){
 		this->storageTube = storage_tube;

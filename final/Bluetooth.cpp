@@ -123,33 +123,3 @@ void Bluetooth::sendStatus(byte moveStat, byte gripStat, byte opStat){
   btmaster.sendPkt(pktS, size);
 }
 
-
-/** creates a Queue with max entries as stated
- * @param max_entries the maximum size of the array
- * @return the Queue struct created
- */
-//~ Queue Bluetooth::createQueue(int max_entries){
-  //~ //TODO
-//~ }
-
-/**adds an array to the Queue
- * @param Q the queue to add the array to
- * @param pkt the pkt pointer to be added
- * @return int 0 for success, -1 for failure (too full)
- */
-//~ int Bluetooth::enqueue(Queue Q, byte* pkt){
-  //~ //TODO
-//~ }
-/** takes the first entry of the Q and returns it 
- * @param Q the queue to dequeue
- * @return the pointer that was dequeued
- */
-//~ byte* Bluetooth::dequeue(Queue Q){
-  //~ //TODO
-//~ }
-/** dequeus the next packet and sends it 
- */
-//~ void sendNxtPkt(){
-  //~ //TODO dequeue relevant info
-  //~ btmaster.sendPkt(pkt, sz);
-//~ }
