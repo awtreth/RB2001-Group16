@@ -14,14 +14,14 @@ Bluetooth::Bluetooth(){ //Initializes the Bluetooth object
  */
 void Bluetooth::setup()
 {
-  this->sendHB_flag = false;
-  this->Go = false;
-  this->teamName = 16;
-  this->radLevel = 0; 
+  //this->sendHB_flag = false;
+  //this->Go = false;
+  //this->teamName = 16;
+  //this->radLevel = 0; 
   this->pcol = ReactorProtocol(byte(TEAM_NUMBER));
   
   Serial3.begin(115200); //Serial3 for the Mega
-  Timer1.initialize(1000*100); //Triggers every 100 ms 
+  //Timer1.initialize(1000*100); //Triggers every 100 ms 
   //Timer1.attachInterrupt(this->timerISR); //FIXME
   pcol.setDst(0x00); //Always set to broadcast to everyone //FIXME
   elapsedTics = 0; //sets the elapsedTics
@@ -33,7 +33,7 @@ void Bluetooth::update(){
 	
   if(btmaster.readPacket(pktR)){ //If there is a packet to read
 	  //TODO: create constants instead of magic numbers for array index
-    if(pcol.getData(pktR, dataR, type) && (dataR[4] == TEAM_NUMBER || dataR[4] == 0x00)){ //If it's addressed to us or all
+    if(pcol.getData(pktR, dataR, type) && (pktR[4] == TEAM_NUMBER || pktR[4] == 0x00)){ //If it's addressed to us or all
       switch (type) { //state machine for the types of packets to be read
         case STORAGE:
           updateStorage(dataR[0]); //updates the storage bools with the relevant info
@@ -42,10 +42,10 @@ void Bluetooth::update(){
           updateSupply(dataR[0]); //updates the supply bools with the relevant info
           break;
         case STOP:
-          this->Go = false; //sets flags for movement 
+          *stop = true; //sets flags for movement 
           break;
         case RESUME:
-          this->Go = true;
+          *stop = false;
           break;
       }
     }
@@ -58,20 +58,20 @@ void Bluetooth::update(){
  * @param info the information byte that is read from Bluetooth
  */
 void Bluetooth::updateStorage(byte info){
-  storageTube.tube1 = ((info & 0x01) == 0x01); //if LSB is on, sets the bool in storageTube
-  storageTube.tube2 = ((info & 0x02) == 0x02);
-  storageTube.tube3 = ((info & 0x03) == 0x03);
-  storageTube.tube4 = ((info & 0x04) == 0x04);
+  storageTube->tube0 = ((info & 0x01) == 0x01); //if LSB is on, sets the bool in storageTube
+  storageTube->tube1 = ((info & 0x02) == 0x02);
+  storageTube->tube2 = ((info & 0x03) == 0x03);
+  storageTube->tube3 = ((info & 0x04) == 0x04);
 }
 
 /** Updates the supply tubes with the relevant booleans
  * @param info the information byte that was read 
  */
 void Bluetooth::updateSupply(byte info){
-  supplyTube.tube1 = ((info & 0x01) == 0x01); //if LSB is on, sets the bool in supplyTube
-  supplyTube.tube2 = ((info & 0x02) == 0x02);
-  supplyTube.tube3 = ((info & 0x03) == 0x03);
-  supplyTube.tube4 = ((info & 0x04) == 0x04);
+  supplyTube->tube0 = ((info & 0x01) == 0x01); //if LSB is on, sets the bool in supplyTube
+  supplyTube->tube1 = ((info & 0x02) == 0x02);
+  supplyTube->tube2 = ((info & 0x03) == 0x03);
+  supplyTube->tube3 = ((info & 0x04) == 0x04);
 }
 
 /** sends the Heartbeat
@@ -79,9 +79,7 @@ void Bluetooth::updateSupply(byte info){
  */ 
 void Bluetooth::sendHB(){
   int size = pcol.createPkt(HEARTBEAT, dataS, pktS); //creates the packt
-  //TODO: I think is better to make an occupied flag
-  //enqueue(Qs, &szS); //stores the packet info and the size
-  //enqueue(Qp, &pktS);
+  btmaster.sendPkt(pktS, size);  
 }
 
 /** Sends the radiation level
@@ -95,10 +93,8 @@ void Bluetooth::sendRadiation(int radLevel){
     dataS[0] = 0xFF;
   }
   int size = pcol.createPkt(RADIATION, dataS, pktS);//creates and enqueues the packet
-  
-  //TODO: actually send
-  //enqueue(Qs, &szS);
-  //enqueue(Qp, &pktS);
+
+  btmaster.sendPkt(pktS, size);
 }
 
 /** Sets the Flag and sends next packet upon proper time
@@ -124,9 +120,7 @@ void Bluetooth::sendStatus(byte moveStat, byte gripStat, byte opStat){
   dataS[1] = gripStat;
   dataS[2] = opStat;
   int size = pcol.createPkt(STATUS, dataS, pktS); //creates and enqueues the info
-  //TODO: send
-  //enqueue(Qs, &szS);
-  //enqueue(Qp, &pktS);
+  btmaster.sendPkt(pktS, size);
 }
 
 

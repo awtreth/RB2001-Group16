@@ -1,22 +1,59 @@
 #include "Arduino.h"
 #include "RobotController.h"
+#include "util.h"
+
+RobotController::RobotController()
+{
+	bluetooth.setInputPointers(&this->storageTube, &this->supplyTube, &stop);
+	stop = false;
+	radLevel = 0;
+}
 
 int RobotController::execute(Action action)
 {
-  switch(action.type)
-  {
-    case MOVE_FORWARD: return this->drive_train.moveForward(action.n_line_crossings); break;
-    case TURN: return this->drive_train.turn90(action.direction); break;
-    
-    default: Serial.println("Default case in RobotController::execute(action)");
-  }
-
-  
-	//TODO
-	return 0;
+	if(this->stop)
+	{
+		this->drive_train.stop();
+		//this->fred.stop();
+	}else
+	{
+		
+		switch(action.type)
+		{
+			case MOVE_FORWARD: return this->drive_train.moveForward(action.n_line_crossings); break;
+			case TURN: return this->drive_train.turn90(action.direction); break;
+			case MOVE_BACKWARD: break;
+      //GRIPPER, TURN_GRIPPER, MOVE_GRIPPER,
+      //STOP, ALARM,
+			//TODO: others
+			default: Serial.println("Default case in RobotController::execute(action)");
+		}
+	}
+	
+	return NOT_DONE_YET;
 }
 
-int RobotController::stop()
+void RobotController::update()
+{
+	static long int last_hb_time = millis();
+	static long int last_update_time = millis();
+	static long int last_rad_alarm_time = millis();
+	
+	bluetooth.update();
+	
+	long int current_time = millis();
+	
+	if((current_time - last_hb_time) > HEARTBEAT_PERIOD)
+		bluetooth.sendHB();
+	
+	//if((current_time - last_update_time) > SEND_STATUS_PERIOD)
+		//bluetooth.sendStatus(this->moveStat, this->gripStat, this->opStat);
+	
+	//if((current_time - last_rad_alarm_time) > RADIATION_ALARM_PERIOD)
+		//bluetooth.sendRadiation(this->radLevel);
+}
+
+/*int RobotController::stop()
 {
 	//TODO
 	return 0;
@@ -26,7 +63,7 @@ int RobotController::resume()
 {
 	//TODO
 	return 0;
-}
+*/
 
 void RobotController::setAlarmPin(int pin_number)
 {
@@ -36,11 +73,11 @@ void RobotController::setAlarmPin(int pin_number)
 
 void RobotController::alarmOn()
 {
-	
+	//TODO
 } 
 
 void RobotController::alarmOff()
 {
-	
+	//TODO
 }
 

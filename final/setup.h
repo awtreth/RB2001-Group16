@@ -24,7 +24,9 @@ Action action_sequence[] =
 {
   Action(MOVE_FORWARD, 1),
   Action(TURN, LEFT),
-  Action(MOVE_FORWARD)
+  Action(MOVE_FORWARD),
+ // Action(DECIDE_NEXT_TURN),
+  Action(TURN)
   //...
 };
 

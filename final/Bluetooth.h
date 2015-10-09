@@ -5,6 +5,30 @@
 #include "BluetoothMaster.h"
 #include "ReactorProtocol.h"
 
+union StorageTube{ //Stores the storage tube availability (Should these be objects????)
+	
+	struct{    
+		bool tube0;
+		bool tube1;
+		bool tube2;
+		bool tube3;
+	};
+	
+	bool tube[4];
+};
+
+union SupplyTube{ //Stores the supply tube availability
+
+	struct{	
+		bool tube0;
+		bool tube1;
+		bool tube2;
+		bool tube3;
+	};
+	
+	bool tube[4];
+};
+
 class Bluetooth
 {
 public:
@@ -14,22 +38,6 @@ public:
   bool Go; //Public bool on whether to go or not. Changeable by Bluetooth command
   int teamName; //The Team name
   int radLevel; //0 for none, 1 for Low, 2 for High. ONLY called on timer flag and with radLevel > 0
-
-
-  struct StorageTube{ //Stores the storage tube availability (Should these be objects????)
-    bool tube1;
-    bool tube2;
-    bool tube3;
-    bool tube4;
-  };
-
-  struct SupplyTube{ //Stores the supply tube availability
-    bool tube1;
-    bool tube2;
-    bool tube3;
-    bool tube4;
-  };
-
 
   enum MessageType{ //Different types of message types to be recieved
     STORAGE = 0x01,
@@ -78,6 +86,12 @@ public:
   //int enqueue(Queue Q, byte* pkt); //adds the packet to the queue
   //byte* dequeue(Queue Q); //dequeues the next pointer
 
+	void setInputPointers(StorageTube* storage_tube, SupplyTube* supply_tube, bool* stop_flag){
+		this->storageTube = storage_tube;
+		this->supplyTube = supply_tube;
+		this->stop = stop_flag;
+	}
+
 private:
 
   byte pktS[10]; //Variables for sending the packets
@@ -92,8 +106,10 @@ private:
 	//BluetoothClient bt;
 	BluetoothMaster btmaster;
 	ReactorProtocol pcol;
-	StorageTube storageTube;
-	SupplyTube supplyTube;
+	
+	StorageTube *storageTube;
+	SupplyTube *supplyTube;
+  bool *stop;
 };
 
 #endif
