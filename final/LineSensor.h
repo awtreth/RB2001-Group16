@@ -5,6 +5,7 @@ class LineSensor
 {
 	private:
 	int pin;
+	int last_read;
 
 	public:
 	
@@ -15,9 +16,10 @@ class LineSensor
 	void attachPin(int pin_number);
 	
 	int read();
+	int get();
 	
-	bool isWhite();
-	bool isBlack();
+	bool isWhite(bool take_last = false);
+	bool isBlack(bool take_last = false);
 };
 
 #endif

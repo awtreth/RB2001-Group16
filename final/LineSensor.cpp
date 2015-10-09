@@ -9,6 +9,7 @@ LineSensor::LineSensor()
 {
 	//do anything
 	this->pin = A0;
+	this->last_read =0;
 }
 
 LineSensor::LineSensor(int pin_number)
@@ -23,16 +24,33 @@ void LineSensor::attachPin(int pin_number)
 	
 int LineSensor::read()
 {
-	return analogRead(this->pin);
+	this->last_read = analogRead(this->pin);
+	return last_read;
 }
 
-bool LineSensor::isBlack()
+bool LineSensor::isBlack(bool take_last)
 {
-	return (this->read() > BLACK_REF);
+	int value = 0;
+	if(take_last)
+		value = last_read;
+	else
+		value = this->read();
+		
+	return (value > BLACK_REF);
 }
 
-bool LineSensor::isWhite()
+bool LineSensor::isWhite(bool take_last)
 {
-	return (this->read() < WHITE_REF);
+	int value = 0;
+	if(take_last)
+		value = last_read;
+	else
+		value = this->read();
+		
+	return (value < WHITE_REF);
 }
 
+int LineSensor::get()
+{
+	return last_read;
+}
