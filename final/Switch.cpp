@@ -3,7 +3,7 @@
 
 Switch::Switch()
 {
-	
+	//do anything
 }
 
 Switch::Switch(int number, int type)
@@ -11,15 +11,18 @@ Switch::Switch(int number, int type)
 	
 }
 
-void Switch::setPin(int number, int type)
+void Switch::setPin(int pin_number, int pull_type)
 {
-	//TODO
+  pin = pin_number;
+  if(pull_type == INTERNAL_PULL_UP)
+	  pinMode(pin, INPUT_PULLUP);
+  else
+    pinMode(pin, INPUT);
 }
 
 bool Switch::isPressed()
 {
-	//TODO
-	return false;
+	return !digitalRead(pin);//just for pull-up
 }
 
 //FORGET THESE FUNCTIONS

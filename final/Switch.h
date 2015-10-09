@@ -3,22 +3,22 @@
 
 //maybe we can put this constants as enum inside the class
 #define INTERNAL_PULL_UP 	0
-#define PULL_UP				1
-#define PULL_DOWN			2
+#define EXTERNAL_PULL_UP				1
+#define EXTERNAL_PULL_DOWN			2 //not implemented yet
 
 class Switch
 {
 	private:
 
 	//int polling_period;
-	int type;
-	
+  int pin;
+  
 	public:
 	
 	Switch();
-	Switch(int number, int type = INTERNAL_PULL_UP);
+	Switch(int pin_number, int pull_type = INTERNAL_PULL_UP);
 	
-	void setPin(int number, int type = INTERNAL_PULL_UP);
+	void setPin(int pin_number, int pull_type = INTERNAL_PULL_UP);
 	bool isPressed();
 	
 	//FORGET THESE FUNCTIONS
