@@ -73,7 +73,7 @@ class NumPrinter
     this->period = new_period;
   }
 
-  void add(String var_name, double* var_pointer)
+  void add(const char* var_name, double* var_pointer)
   {
     this->var_name[n_var] = var_name;
     this->var[n_var] = var_pointer;
@@ -84,7 +84,7 @@ class NumPrinter
   {
     static long int last_time = millis();
     long int current_time = millis();
-    if((current_time-last_time)>this->period)
+    if((current_time-last_time) > this->period)
     {
       Serial.println("*****************************************************");
       for(int i = 0; i < n_var; i++)
@@ -93,6 +93,7 @@ class NumPrinter
         Serial.print(" = ");
         Serial.println(*var[i]);
       }
+      last_time = current_time;
     }
   }
    

@@ -34,10 +34,10 @@ class Bluetooth
 public:
   Bluetooth();
   
-  bool sendHB_flag; //Timer based bool _on whether to send the heartbeat
-  bool Go; //Public bool on whether to go or not. Changeable by Bluetooth command
-  int teamName; //The Team name
-  int radLevel; //0 for none, 1 for Low, 2 for High. ONLY called on timer flag and with radLevel > 0
+  //bool sendHB_flag; //Timer based bool _on whether to send the heartbeat
+  //bool Go; //Public bool on whether to go or not. Changeable by Bluetooth command
+  //int teamName; //The Team name
+  //int radLevel; //0 for none, 1 for Low, 2 for High. ONLY called on timer flag and with radLevel > 0
 
   enum MessageType{ //Different types of message types to be recieved
     STORAGE = 0x01,
@@ -75,13 +75,13 @@ public:
   //static void timerISR(); //ISR to send the heartbeat and any relevant info
 
   void updateStorage(byte info); //This updates the Storage struct with the availability
-  void updateSupply(byte info); //This updates the Supply struct with the availability
+  void updateSupply (byte info); //This updates the Supply struct with the availability
 
   void sendHB(); //Sends the heartbeat
   void sendRadiation(int radLevel); //Sends the corresponding rad level
   void sendStatus(byte moveStat, byte gripStat, byte opStat); //packages and sends a byte with the given status 
   
-  void sendNxtPkt(); //Sends the next packet in the queue
+  //void sendNxtPkt(); //Sends the next packet in the queue
   //Queue createQueue(int max_entries); //creates a queue 
   //int enqueue(Queue Q, byte* pkt); //adds the packet to the queue
   //byte* dequeue(Queue Q); //dequeues the next pointer
