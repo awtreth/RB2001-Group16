@@ -3,14 +3,13 @@
 
 //Let's put initial setup configuration here
 
-//PIN NUMBERS
-#define LN_TRACK_KP .017
-#define LN_TRACK_KD 45
-#define LN_TRACK_KI 0
-
 #define LEFT_MOTOR_PIN  6
 #define RIGHT_MOTOR_PIN 7
 
+// Line trackers
+#define LN_TRACK_KP .017
+#define LN_TRACK_KD 40
+#define LN_TRACK_KI 0
 #define LEFT_LN_SENSOR_PIN 	A1
 #define RIGHT_LN_SENSOR_PIN A0
 #define SIDE_LN_SENSOR_PIN 	A3
@@ -19,6 +18,14 @@
 #define REACTOR_SWITCH_PIN  27
 #define WALL_SWITCH_PIN     25
 #define STARTER_SWITCH_PIN 29
+
+// FRED 
+#define GRIPPER_PIN 4
+#define ANGLE_PIN 5
+#define LIFT_PIN 9
+#define HI_PIN 29
+#define LO_PIN 28
+
 
 RobotController robot;
 
@@ -44,12 +51,7 @@ void mySetup()
   robot.drive_train.pid.setLimits(-90,+90);
 
   //SETUP FRED
-  //FRED fred;
-  //fred.attachPins(...);
-
-  //robot.fred= fred;
-  //robot.setAlarmPin(...);
-
+  robot.fred = FRED(LIFT_PIN, ANGLE_PIN, GRIPPER_PIN, HI_PIN, LO_PIN);
   //...
 }
 

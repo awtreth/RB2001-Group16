@@ -10,9 +10,7 @@
 #include "BluetoothMaster.h"
 #include "BluetoothClient.h"
 #include "Bluetooth.h"
-
 #include "util.h"
-
 #include "setup.h"
 
 double a = 0, b = 1;
@@ -27,10 +25,10 @@ void setup() {
 }
 
 int current_action = 0;
+int fred_test = NOT_DONE_YET;
 
 void loop()
 {
-  //Serial.println(robot.drive_train.ln_sensor[SIDE_LS].isBlack());
   //robot.update();//take care of all the communication stuffs
   current_action += robot.execute(action_sequence[current_action]);
 }

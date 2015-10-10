@@ -28,7 +28,7 @@ double PidController::calc(double error)
 double PidController::calc(double target, double sensor_value)
 {
 	now = millis();
-	dt = now-last_time;
+	dt = now - last_time;
 	
 	if(dt >= sample_time)
 	{
