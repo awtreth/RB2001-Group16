@@ -45,7 +45,7 @@ class RobotController
 	void alarmOn(); 
 	void alarmOff();
 
-  //int reactor2storage(int from_reactor, int storage_dest);
+	int reactor2storage(int from_reactor, int storage_dest);
   //int storage2supply(int from_storage, int supply_dest, int goal_reactor);
   //int supply2reactor(int from_supply, int reactor_dest);
 

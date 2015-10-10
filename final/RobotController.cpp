@@ -21,14 +21,57 @@ int RobotController::execute(Action action)
 		
 		switch(action.type)
 		{
-			case MOVE_FORWARD: return this->drive_train.moveForward(action.n_line_crossings); break;
+			case MOVE_FORWARD: return this->drive_train.moveForward(action.n_line_crossings, action.speed); break;
 			case TURN: return this->drive_train.turn90(action.direction); break;
-			case MOVE_BACKWARD: break;
+			case MOVE_BACKWARD: return this->drive_train.moveForward(action.n_line_crossings, action.speed); break;
       //GRIPPER, TURN_GRIPPER, MOVE_GRIPPER,
       //STOP, ALARM,
 			//TODO: others
 			default: Serial.println("Default case in RobotController::execute(action)");
 		}
+	}
+	
+	return NOT_DONE_YET;
+}
+
+int RobotController::reactor2storage(int from_reactor, int storage_dest)
+{
+	static bool new_move = true;
+	static int current_action = 0;
+	
+	static Action action_seq[]
+	{
+		Action(MOVE_BACKWARD, 0, DEFAULT_SPEED),//to be decided
+		Action(TURN, RIGHT),//to be decided
+		Action(MOVE_FORWARD, 0, DEFAULT_SPEED)
+	};
+	
+	if(new_move)
+	{
+		//decide
+		if(from_reactor == 1)
+		{
+			action_seq[0].n_line_crossings = storage_dest;
+			action_seq[1].direction = RIGHT;
+		}else if(from_reactor == 2)
+		{			
+			action_seq[0].n_line_crossings = 4-storage_dest;
+			action_seq[1].direction = LEFT;
+		}
+		
+		new_move = false;
+		current_action = 0;
+	}
+	
+	
+	current_action += this->execute(action_seq[current_action]);
+	
+	//is the last action?
+	if(current_action == (sizeof(action_seq)/sizeof(Action)))
+	{
+		current_action = 0;
+		new_move = true;
+		return DONE;
 	}
 	
 	return NOT_DONE_YET;
