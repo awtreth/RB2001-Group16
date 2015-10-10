@@ -1,81 +1,87 @@
 #include "Arduino.h"
 #include "FRED.H"
+#include <Servo.h>
 #include "util.h"
 
-#define DEFAULT_FRED_SPEED 0 //TODO: calibrate
+#define DROP_SPEED 100 //TODO: calibrate
+#define LIFT_SPEED 52 // calibrated
+#define STOP 90 // motor-off speed
+#define HOR_SET 0
+#define VERT_SET 87
 
 FRED::FRED()
 {
 	
 }
 
-FRED::FRED(int gripper_servo_pin, int lift_motor_pin, int turn_gripper_pin, int stopper_pin)
+FRED::FRED(int lift_motor_pin, int turn_gripper_pin, int gripper_pin, int hi_pin, int lo_pin)
 {
-	this->attachPins(gripper_servo_pin, lift_motor_pin, turn_gripper_pin, stopper_pin);
+	lift_motor.attach(lift_motor_pin, 1000, 2000); // init 393 motor
+  turn_gripper.attach(turn_gripper_pin);
+  gripper_servo.attach(gripper_pin);
+  this->hi_stopper.setPin(hi_pin);//Internal Pull-up by default
+  this->lo_stopper.setPin(lo_pin);
 }
-	
-void FRED::attachPins(int gripper_servo_pin, int lift_motor_pin, int turn_gripper_pin, int stopper_pin)
-{
-	this->gripper_servo_pin = gripper_servo_pin;
-	this->fred_stopper.setPin(stopper_pin);//Internal Pull-up by default
-	lift_motor.attach(lift_motor_pin);
-	turn_gripper.attach(turn_gripper_pin);
-}
-
 
 //MoveGrippper
 int FRED::moveGripper(LifterAction movement)
 {
-	//int control_signal = lift_speed_pid.calc(DEFAULT_FRED_SPEED, CALCULATED_SPEED);
-	return NOT_DONE_YET;
+  return NOT_DONE_YET;
 }
 
 int FRED::moveGripperUp()
 {
-	//TODO
+	if(hi_stopper.isPressed()) 
+	{
+	  return DONE;
+	}
+  else lift_motor.write(LIFT_SPEED);
 	return NOT_DONE_YET;
 }
 
 int FRED::moveGripperDown()
 {
-	//TODO
-	return NOT_DONE_YET;
+	if (lo_stopper.isPressed()) 
+	{
+	  lift_motor.write(STOP); // all stop
+	  return DONE;
+	}
+  else lift_motor.write(DROP_SPEED);
+  return NOT_DONE_YET;
 }
 
 //TurnGripper
 int FRED::turnGripper(GripperOrientation orientation)
 {
-	//TODO
-	return NOT_DONE_YET;
-}
-
-int FRED::turnGripperHorizontal()
-{
-	//TODO
-	return NOT_DONE_YET;
-}
-
-int FRED::turnGripperVertical()
-{
-	//TODO
+	switch (orientation)
+  {
+    case HORIZONTAL:  
+      turn_gripper.write(HOR_SET); 
+      return DONE; 
+      break;
+    case VERTICAL: 
+      turn_gripper.write(VERT_SET); 
+      return DONE; 
+      break;
+  }
 	return NOT_DONE_YET;
 }
 
 //gripperOpenClose
 int FRED::gripper(GripperPosition state)
 {
-	//TODO
-	return NOT_DONE_YET;
+	
+	switch (state)
+  {
+    case OPEN:  
+      gripper_servo.write(0); 
+      return DONE; 
+      break;
+    case CLOSED: 
+      gripper_servo.write(180); 
+      return DONE; 
+      break;
+  }
+  return NOT_DONE_YET;
 }
 
-int FRED::openGripper()
-{
-	//TODO
-	return NOT_DONE_YET;
-}
-
-int FRED::closeGripper()
-{
-	//TODO
-	return NOT_DONE_YET;
-}
