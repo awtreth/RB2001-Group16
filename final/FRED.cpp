@@ -4,7 +4,7 @@
 #include "util.h"
 
 #define DROP_SPEED 0 //TODO: calibrate
-#define LIFT_SPEED 0 //TODO: calibrate
+#define LIFT_SPEED 95 //TODO: calibrate
 #define KEEP_UP_SPEED 0 //TODO: calibrate
 #define STOP 90 // motor-off speed
 #define HOR_SET 0
@@ -27,7 +27,7 @@ FRED::FRED(int lift_motor_pin, int turn_gripper_pin, int gripper_pin, int hi_pin
 //MoveGrippper
 int FRED::moveGripper(LifterAction movement)
 {
-	return NOT_DONE_YET;
+  return NOT_DONE_YET;
 }
 
 int FRED::moveGripperUp()
@@ -93,14 +93,3 @@ int FRED::gripper(GripperPosition state)
   return NOT_DONE_YET;
 }
 
-int FRED::openGripper()
-{
-	//TODO
-	return NOT_DONE_YET;
-}
-
-int FRED::closeGripper()
-{
-	//TODO
-	return NOT_DONE_YET;
-}

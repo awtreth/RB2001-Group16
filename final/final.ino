@@ -10,9 +10,7 @@
 #include "BluetoothMaster.h"
 #include "BluetoothClient.h"
 #include "Bluetooth.h"
-
 #include "util.h"
-
 #include "setup.h"
 
 double a = 0, b = 1;
@@ -22,20 +20,29 @@ void setup() {
   Serial.begin(38400);
 
   mySetup();
+
+  int test_fred = NOT_DONE_YET;
+  while(test_fred != DONE)
+  {
+    test_fred = robot.fred.moveGripperUp();
+    Serial.println(test_fred);
+  }
+
 }
 
 int current_action = 0;
 
+
 void loop() 
 {
-  static long int last_time = millis();
-	
-	robot.update();//take care of all the communication stuffs
-	//current_action += robot.execute(action_sequence[current_action]);
-	
-	if((millis() - last_time)>1000)
- {
-		robot.printTubes();
-    last_time = millis();
- }
+//  static long int last_time = millis();
+//	
+//	robot.update();//take care of all the communication stuffs
+//	//current_action += robot.execute(action_sequence[current_action]);
+//	
+//	if((millis() - last_time)>1000)
+// {
+//		robot.printTubes();
+//    last_time = millis();
+// }
 }

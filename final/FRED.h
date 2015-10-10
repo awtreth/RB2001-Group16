@@ -32,13 +32,11 @@ class FRED//TODO: translation of FRED
 	//constants defined in "util.h"
 	int moveGripper(LifterAction movement);
 	int moveGripperUp();
-	int moveGripperDown();
-
+  int moveGripperDown();
+  
 	int turnGripper(GripperOrientation orientation);
-	
 	int gripper(GripperPosition state);
-	int openGripper();
-	int closeGripper();
+
 };
 
 #endif
