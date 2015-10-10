@@ -48,7 +48,7 @@ class Action
     GripperOrientation orientation;//for lifter (MOVE_UP or MOVE_DOWN)
     int supply_dest;
     int from_supply;
-	  int has2decide;//for turn and MOVE_FORWARD movments. RobotController checks if it's equal to DECIDE_ACTION
+    int from_reactor;
   };
 
   union

@@ -56,12 +56,13 @@ class DriveTrain
 	int moveBackward(int n_line_crossings = 0, int speed = DEFAULT_SPEED);
 	int moveStraight(int n_line_crossings = 0, int speed = DEFAULT_SPEED);//negative speed moves backward
 
+  LineSensor ln_sensor[N_LINE_SENSORS];
 	private:
 	
 	Servo left_motor;
 	Servo right_motor;
 	
-	LineSensor ln_sensor[N_LINE_SENSORS];
+	
 	
 	Switch reactor_stopper;
   Switch wall_stopper;

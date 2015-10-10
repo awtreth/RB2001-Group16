@@ -21,9 +21,10 @@ int RobotController::execute(Action action)
 		
 		switch(action.type)
 		{
-			case MOVE_FORWARD: return this->drive_train.moveForward(action.n_line_crossings, action.speed); break;
+			case MOVE_FORWARD: return this->drive_train.moveForward(action.n_line_crossings); break;
 			case TURN: return this->drive_train.turn90(action.direction); break;
-			case MOVE_BACKWARD: return this->drive_train.moveForward(action.n_line_crossings, action.speed); break;
+			case MOVE_BACKWARD: return this->drive_train.moveBackward(action.n_line_crossings); break;
+      case REACTOR_TO_STORAGE: return this->reactor2storage(action.from_reactor); break;
       //GRIPPER, TURN_GRIPPER, MOVE_GRIPPER,
       //STOP, ALARM,
 			//TODO: others
@@ -34,7 +35,7 @@ int RobotController::execute(Action action)
 	return NOT_DONE_YET;
 }
 
-int RobotController::reactor2storage(int from_reactor, int storage_dest)
+int RobotController::reactor2storage(int from_reactor)
 {
 	static bool new_move = true;
 	static int current_action = 0;
@@ -49,13 +50,22 @@ int RobotController::reactor2storage(int from_reactor, int storage_dest)
 	if(new_move)
 	{
 		//decide
+    int i = 0;
+
+    //CONSIDER BACKWARD MOVMENT
 		if(from_reactor == 1)
 		{
-			action_seq[0].n_line_crossings = storage_dest;
+      for(i = 0; i < 4; i++)
+        if(!storageTube.tube[i]) break;
+        
+			action_seq[0].n_line_crossings = i+1;
 			action_seq[1].direction = RIGHT;
 		}else if(from_reactor == 2)
-		{			
-			action_seq[0].n_line_crossings = 4-storage_dest;
+		{	
+      for(i = 3; i >= 0; i--)
+        if(!storageTube.tube[i]) break;
+        		
+			action_seq[0].n_line_crossings = 4-i;
 			action_seq[1].direction = LEFT;
 		}
 		

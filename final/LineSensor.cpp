@@ -1,6 +1,6 @@
 #include "LineSensor.h"
 
-#define BLACK_REF 600
+#define BLACK_REF 700
 #define WHITE_REF 100
 
 #include "Arduino.h"

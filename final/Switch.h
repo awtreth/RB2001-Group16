@@ -10,7 +10,6 @@ class Switch
 {
 	private:
 
-	//int polling_period;
   int pin;
   
 	public:
@@ -21,13 +20,10 @@ class Switch
 	void setPin(int pin_number, int pull_type = INTERNAL_PULL_UP);
 	bool isPressed();
 	
-	//FORGET THESE FUNCTIONS
-	//#define DEFAULT_POLLING_PERIOD  50 //milliseconds
-	//bool waitOn(int how_long = 0); //0 - forever
-	//bool waitOff(int how_long = 0); //0 - forever
-	//bool waitChange(int how_long = 0); //0 - forever
+	bool waitOn(int how_long = 0); //0 - forever
+	bool waitOff(int how_long = 0); //0 - forever
+	bool waitChange(int how_long = 0); //0 - forever
 	
-	//void setPollingPeriod(int time = DEFAULT_POLLING_PERIOD);
 };
 
 #endif

@@ -2,7 +2,7 @@
 #include "DriveTrain.h"
 #include "util.h"
 
-//#define LEFT_MOTOR_REF 25  
+//#define LEFT_MOTOR_REF 700  
 //#define RIGHT_MOTOR_REF 40//right motor turns faster than the left  
 
 //This constructor didn't work (very weird)
@@ -105,13 +105,13 @@ int DriveTrain::turn90(TurnDirection dir)
   
 	if(!came_from_white)
   {
-    if(ln_sensor[BACK_LS].isWhite())
+    if(ln_sensor[SIDE_LS].isWhite())
       came_from_white = true;
   }
 
   if(came_from_white)
   {
-     if(ln_sensor[BACK_LS].isBlack())
+     if(ln_sensor[SIDE_LS].isBlack())
      {
         this->stop();
         came_from_white = false;
@@ -173,20 +173,22 @@ int DriveTrain::moveStraight(int n_line_crossings, int speed)
   //FIXME: the next 2 if statements are repeated in turn90. Maybe we can create a method for this
   if(!came_from_white)
   {
-    if(ln_sensor[SIDE_LS].isWhite(true))
+    if(ln_sensor[SIDE_LS].isWhite())
       came_from_white = true;
   }
 
   if(came_from_white)
   {
-     if(ln_sensor[SIDE_LS].isBlack(true))
+     if(ln_sensor[SIDE_LS].isBlack())
      {
         came_from_white = false;
         missing_lines--;
      }
   }
 
-  if(missing_lines == 0  || wall_stopper.isPressed() || reactor_stopper.isPressed())
+  //Serial.println(missing_lines);
+
+  if(missing_lines == 0  || ((wall_stopper.isPressed() || reactor_stopper.isPressed())&&(speed>0)))
   {
     this->stop();
     new_move = true;
