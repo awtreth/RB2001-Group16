@@ -8,6 +8,8 @@ RobotController::RobotController()
 	bluetooth.setInputPointers(&this->storageTube, &this->supplyTube, &stop);
 	stop = false;
 	radLevel = 0;
+  my_position = 0; //0-3 
+  goal_reactor = 1;//1 or 2
 }
 
 int RobotController::execute(Action action)
@@ -21,13 +23,20 @@ int RobotController::execute(Action action)
 		
 		switch(action.type)
 		{
+      //SIMPLE ACTIONS
 			case MOVE_FORWARD: return this->drive_train.moveForward(action.n_line_crossings); break;
 			case TURN: return this->drive_train.turn90(action.direction); break;
 			case MOVE_BACKWARD: return this->drive_train.moveBackward(action.n_line_crossings); break;
-      case REACTOR_TO_STORAGE: return this->reactor2storage(action.from_reactor); break;
+      
       //GRIPPER, TURN_GRIPPER, MOVE_GRIPPER,
       //STOP, ALARM,
+
+      //MACRO_ACTIONS
+      case REACTOR_TO_STORAGE: return this->reactor2storage(); break;
+      case STORAGE_TO_SUPPLY: return this->storage2supply(); break;
+      case SUPPLY_TO_REACTOR: return this->supply2reactor(); break;
 			//TODO: others
+			
 			default: Serial.println("Default case in RobotController::execute(action)");
 		}
 	}
@@ -35,12 +44,12 @@ int RobotController::execute(Action action)
 	return NOT_DONE_YET;
 }
 
-int RobotController::reactor2storage(int from_reactor)
+int RobotController::reactor2storage()
 {
 	static bool new_move = true;
 	static int current_action = 0;
 	
-	static Action action_seq[]
+	static Action action_seq[] = 
 	{
 		Action(MOVE_BACKWARD, 0, DEFAULT_SPEED),//to be decided
 		Action(TURN, RIGHT),//to be decided
@@ -53,14 +62,14 @@ int RobotController::reactor2storage(int from_reactor)
     int i = 0;
 
     //CONSIDER BACKWARD MOVMENT
-		if(from_reactor == 1)
+		if(goal_reactor == 1)
 		{
       for(i = 0; i < 4; i++)
         if(!storageTube.tube[i]) break;
         
 			action_seq[0].n_line_crossings = i+1;
 			action_seq[1].direction = RIGHT;
-		}else if(from_reactor == 2)
+		}else if(goal_reactor == 2)
 		{	
       for(i = 3; i >= 0; i--)
         if(!storageTube.tube[i]) break;
@@ -68,7 +77,9 @@ int RobotController::reactor2storage(int from_reactor)
 			action_seq[0].n_line_crossings = 4-i;
 			action_seq[1].direction = LEFT;
 		}
-		
+
+    my_position = i;
+    
 		new_move = false;
 		current_action = 0;
 	}
@@ -85,6 +96,88 @@ int RobotController::reactor2storage(int from_reactor)
 	}
 	
 	return NOT_DONE_YET;
+}
+
+
+int RobotController::storage2supply()
+{
+  static bool new_move = true;
+  static int current_action = 0;
+  
+  static Action action_seq[] = 
+  {
+    Action(MOVE_BACKWARD, 1, DEFAULT_SPEED),//return to center
+    Action(TURN, RIGHT),//to be decided
+    Action(MOVE_FORWARD, 0, DEFAULT_SPEED),//to be decided
+    Action(TURN, RIGHT),//to be decided
+    Action(MOVE_FORWARD, 0, DEFAULT_SPEED)
+  };
+  
+  if(new_move)
+  {
+    //decide
+    int i = 0;
+
+    //CONSIDER BACKWARD MOVMENT
+    if(goal_reactor == 1)
+    {
+      for(i = 0; i < 4; i++)
+        if(!storageTube.tube[i]) break;
+    }else if(goal_reactor == 2)
+    { 
+      for(i = 3; i >= 0; i--)
+        if(!storageTube.tube[i]) break;
+    }
+
+    if(i<=my_position)
+      {
+        action_seq[1].direction = LEFT;
+        action_seq[3].direction = LEFT;
+      }else
+      {
+        action_seq[1].direction = RIGHT;
+        action_seq[3].direction = RIGHT;
+      }
+
+     action_seq[2].n_line_crossings = abs(my_position-i);
+
+    my_position = i;
+    new_move = false;
+    current_action = 0;
+  }
+  
+  current_action += this->execute(action_seq[current_action]);
+  
+  //is the last action?
+  if(current_action == (sizeof(action_seq)/sizeof(Action)))
+  {
+    current_action = 0;
+    new_move = true;
+    return DONE;
+  }
+  return NOT_DONE_YET;
+}
+
+int RobotController::supply2reactor()
+{
+  static int current_action = 0;
+  
+  static Action action_seq[] = 
+  {
+    Action(MOVE_BACKWARD, 1, DEFAULT_SPEED),//return to center
+    Action(TURN, (goal_reactor==1)?RIGHT:LEFT),
+    Action(MOVE_FORWARD, 0, DEFAULT_SPEED),//to be decided
+  };
+  
+  current_action += this->execute(action_seq[current_action]);
+  
+  //is the last action?
+  if(current_action == (sizeof(action_seq)/sizeof(Action)))
+  {
+    current_action = 0;
+    return DONE;
+  }
+  return NOT_DONE_YET;
 }
 
 void RobotController::printTubes()

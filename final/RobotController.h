@@ -25,7 +25,9 @@ class RobotController
 	StorageTube storageTube;
 	SupplyTube supplyTube;
 	bool stop;
-  int my_position; 
+  
+  int my_position; //0-3 
+  int goal_reactor;//1 or 2
   
 	void printTubes();
 	
@@ -46,9 +48,9 @@ class RobotController
 	void alarmOn(); 
 	void alarmOff();
 
-	int reactor2storage(int from_reactor);
-  //int storage2supply(int from_storage, int reactor_dest);
-  //int supply2reactor(int from_supply, int reactor_dest);
+	int reactor2storage();
+  int storage2supply();
+  int supply2reactor();
 
 	private:
   
