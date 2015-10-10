@@ -44,7 +44,7 @@ class DriveTrain
 	
   PidController pid;
   
-	void resume();
+	//void resume();
 	
 	//the next functions return DONE(=1) or NOT_DONE_YET(=0)
 	//constants defined in "util.h"
@@ -54,6 +54,7 @@ class DriveTrain
 	
 	int moveForward(int n_line_crossings = 0, int speed = DEFAULT_SPEED);
 	int moveBackward(int n_line_crossings = 0, int speed = DEFAULT_SPEED);
+	int moveStraight(int n_line_crossings = 0, int speed = DEFAULT_SPEED);//negative speed moves backward
 
 	private:
 	

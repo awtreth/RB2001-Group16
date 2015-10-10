@@ -9,7 +9,7 @@
 DriveTrain::DriveTrain(int left_motor_pin, int right_motor_pin)
 {
 	this->attachMotors(left_motor_pin, right_motor_pin);
-  //this->stop();
+	this->stop();
 }
 
 void DriveTrain::attachMotors(int left_motor_pin, int right_motor_pin)
@@ -81,10 +81,10 @@ void DriveTrain::turn(TurnDirection dir, int speed)//-90~90
 
 
 //SMART  MOVMENTS
-void DriveTrain::resume()
+/*void DriveTrain::resume()
 {
 	//TODO
-}
+}*/
 	
 int DriveTrain::turn90(TurnDirection dir)
 {
@@ -109,7 +109,7 @@ int DriveTrain::turn90(TurnDirection dir)
      {
         this->stop();
         came_from_white = false;
-        //already_turn = false;
+        already_turn = false;
         return DONE;
      }
   }
@@ -119,17 +119,15 @@ int DriveTrain::turn90(TurnDirection dir)
 
 int DriveTrain::turn90Left()
 {
-	//TODO
-	return NOT_DONE_YET;
+	return turn90(LEFT);
 }
 
 int DriveTrain::turn90Right()
 {
-	//TODO
-	return NOT_DONE_YET;
+	return turn90(RIGHT);
 }
 	
-int DriveTrain::moveForward(int n_line_crossings, int speed)
+int DriveTrain::moveStraight(int n_line_crossings, int speed)
 {
 	static bool new_move= true;
   static int missing_lines = n_line_crossings;
@@ -142,6 +140,26 @@ int DriveTrain::moveForward(int n_line_crossings, int speed)
     new_move = false;
   }
   
+  /*Another approach
+  
+  ln_sensor[RIGHT_LS].read();
+  ln_sensor[LEFT_LS].read();
+  
+  if(missing_lines == 0  || stopper.isPressed(true))
+  {
+    this->stop();
+    new_move = true;
+    return DONE;
+  }
+
+  int signal_control = pid.calc(ln_sensor[RIGHT_LS].get()-ln_sensor[LEFT_LS].gets());
+  */
+  
+  if(speed >= 0 )
+	pid.positiveConstants();
+  else
+	pid.negativeConstants();
+	
 	int value = pid.calc(ln_sensor[RIGHT_LS].read()-ln_sensor[LEFT_LS].read());
   
   this->drive(speed + value, speed - value);
@@ -149,13 +167,13 @@ int DriveTrain::moveForward(int n_line_crossings, int speed)
   //FIXME: the next 2 if statements are repeated in turn90. Maybe we can create a method for this
   if(!came_from_white)
   {
-    if(ln_sensor[SIDE_LS].isWhite())
+    if(ln_sensor[SIDE_LS].isWhite(true))
       came_from_white = true;
   }
 
   if(came_from_white)
   {
-     if(ln_sensor[SIDE_LS].isBlack())
+     if(ln_sensor[SIDE_LS].isBlack(true))
      {
         came_from_white = false;
         missing_lines--;
@@ -172,13 +190,12 @@ int DriveTrain::moveForward(int n_line_crossings, int speed)
 	return NOT_DONE_YET;
 }
 
+int DriveTrain::moveForward(int n_line_crossings, int speed)
+{
+	return this->moveStraight(n_line_crossings, speed);
+}
+
 int DriveTrain::moveBackward(int n_line_crossings, int speed)
 {
-	int value = -pid.calc(ln_sensor[RIGHT_LS].read()-ln_sensor[LEFT_LS].read());
-  
-  this->drive(-speed + value, -speed - value);
-
-  //TODO: line_crossings
-  
-	return NOT_DONE_YET;
+	return this->moveStraight(n_line_crossings, -speed);
 }

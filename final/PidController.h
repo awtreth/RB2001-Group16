@@ -1,6 +1,8 @@
 #ifndef PID_CONTROLLER_H
 #define PID_CONTROLLER_H
 
+#include "Arduino.h"
+
 class PidController
 {
 
@@ -23,6 +25,9 @@ class PidController
 	void setSampleTime(int stime);//in ms
 
 	double kp, ki, kd;
+  
+	void positiveConstants(){kp = abs(kp); ki = abs(ki); kd = abs(kd);}
+	void negativeConstants(){kp = -abs(kp); ki = -abs(ki); kd = -abs(kd);}
   
   private:
 	double sum;
