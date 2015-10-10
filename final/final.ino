@@ -20,18 +20,10 @@ void setup() {
   Serial.begin(38400);
 
   mySetup();
-
-  int test_fred = NOT_DONE_YET;
-  while(test_fred != DONE)
-  {
-    test_fred = robot.fred.moveGripperUp();
-    Serial.println(test_fred);
-  }
-
 }
 
 int current_action = 0;
-
+int fred_test = NOT_DONE_YET;
 
 void loop() 
 {
@@ -45,4 +37,12 @@ void loop()
 //		robot.printTubes();
 //    last_time = millis();
 // }
+
+  if(fred_test == DONE) 
+  {
+    delay(1000);
+    robot.fred.moveGripperDown();
+  } 
+  else fred_test = robot.fred.moveGripperUp();
+ 
 }
