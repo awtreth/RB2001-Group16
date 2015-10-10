@@ -20,7 +20,8 @@ FRED::FRED(int lift_motor_pin, int turn_gripper_pin, int gripper_pin, int sw_pin
 //MoveGrippper
 int FRED::moveGripper(LifterAction movement)
 {
-	//int control_signal = lift_speed_pid.calc(DEFAULT_FRED_SPEED, CALCULATED_SPEED);
+	int control_signal = lifter_pid.calc(DEFAULT_FRED_SPEED, CALCULATED_SPEED);
+  if
 	return NOT_DONE_YET;
 }
 
