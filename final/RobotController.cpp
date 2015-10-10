@@ -4,6 +4,7 @@
 
 RobotController::RobotController()
 {
+  bluetooth.setup();
 	bluetooth.setInputPointers(&this->storageTube, &this->supplyTube, &stop);
 	stop = false;
 	radLevel = 0;
@@ -31,6 +32,26 @@ int RobotController::execute(Action action)
 	}
 	
 	return NOT_DONE_YET;
+}
+
+void RobotController::printTubes()
+{
+	Serial.print("StorageArea:	");
+	for (int i = 0; i < 4; i++)
+	{
+		Serial.print((int)storageTube.tube[i]);
+		Serial.print(' ');
+	}
+	Serial.print('\n');
+	
+	Serial.println("SupplyArea:		");
+	
+	for (int i = 0; i < 4; i++)
+	{
+		Serial.print((int)supplyTube.tube[i]);
+		Serial.print(' ');
+	}
+	Serial.print('\n');
 }
 
 void RobotController::update()

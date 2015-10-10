@@ -33,8 +33,6 @@ Action action_sequence[] =
 
 void mySetup()
 {
-  //SETUP DRIVE_TRAIN
-  //DriveTrain dtrain;
   robot.drive_train.attachMotors(LEFT_MOTOR_PIN, RIGHT_MOTOR_PIN);
   robot.drive_train.attachLnSensors(LEFT_LN_SENSOR_PIN, RIGHT_LN_SENSOR_PIN, SIDE_LN_SENSOR_PIN, BACK_LN_SENSOR_PIN);//at first we'll try without back_pin
   //dtrain.attachStopper(FRONT_SWITCH_PIN);//at first we'll try without back_pin

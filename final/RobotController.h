@@ -26,6 +26,8 @@ class RobotController
 	SupplyTube supplyTube;
 	bool stop;
 	
+	void printTubes();
+	
 	
 	int radLevel;
 	

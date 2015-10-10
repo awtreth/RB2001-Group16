@@ -6,7 +6,7 @@
 #include "PidController.h"
 #include "Switch.h"
 
-enum GripperPosition{OPEN, CLOSE};
+enum GripperPosition{OPEN, CLOSED};
 enum LifterAction{MOVE_UP, MOVE_DOWN};
 enum GripperOrientation{HORIZONTAL, VERTICAL};
 
@@ -18,15 +18,15 @@ class FRED//TODO: translation of FRED
   
   Servo lift_motor;
 	Servo turn_gripper;
-  Servo gripper;
+  Servo gripper_servo;
   
 	public:
 
-  Switch lo_stop;
-  Switch hi_stop;
+  Switch lo_stopper;
+  Switch hi_stopper;
   
 	FRED(); // unused constructor
-	FRED(int lift_motor_pin, int turn_gripper_pin, int gripper_pin, int sw_pin);
+	FRED(int lift_motor_pin, int turn_gripper_pin, int gripper_pin, int hi_pin, int lo_pin);
 
 	//the next functions return DONE(=1) or NOT_DONE_YET(=0)
 	//constants defined in "util.h"
@@ -35,8 +35,6 @@ class FRED//TODO: translation of FRED
 	int moveGripperDown();
 
 	int turnGripper(GripperOrientation orientation);
-	int turnGripperHorizontal();
-	int turnGripperVertical();
 	
 	int gripper(GripperPosition state);
 	int openGripper();
