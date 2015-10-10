@@ -26,7 +26,7 @@ class DriveTrain
 	
 	void attachMotors(int left_motor_pin, int right_motor_pin);
 	void attachLnSensors(int left_pin, int right_pin, int side_pin, int back_pin = 0);//at first we'll try without back_pin
-	//void attachStopper(int stopper_pin);//at first we'll try without back_pin //TODO
+	void attachStoppers(int reactor_stopper_pin, int wall_stopper_pin);//at first we'll try without back_pin //TODO
 	
 	void drive(int left_value, int right_value);
 
@@ -63,7 +63,8 @@ class DriveTrain
 	
 	LineSensor ln_sensor[N_LINE_SENSORS];
 	
-	Switch stopper;
+	Switch reactor_stopper;
+  Switch wall_stopper;
 
 	bool stop_flag;
 	//I think we'll need more flags

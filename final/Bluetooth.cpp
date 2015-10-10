@@ -14,17 +14,10 @@ Bluetooth::Bluetooth(){ //Initializes the Bluetooth object
  */
 void Bluetooth::setup()
 {
-  //this->sendHB_flag = false;
-  //this->Go = false;
-  //this->teamName = 16;
-  //this->radLevel = 0; 
   this->pcol = ReactorProtocol(byte(TEAM_NUMBER));
   
   Serial3.begin(115200); //Serial3 for the Mega
-  //Timer1.initialize(1000*100); //Triggers every 100 ms 
-  //Timer1.attachInterrupt(this->timerISR); //FIXME
   pcol.setDst(0x00); //Always set to broadcast to everyone //FIXME
-  elapsedTics = 0; //sets the elapsedTics
 
 }
 /** a callable function that takes care of reading the Bluetooth and taking care of the relevant assigns
@@ -60,8 +53,8 @@ void Bluetooth::update(){
 void Bluetooth::updateStorage(byte info){
   storageTube->tube0 = ((info & 0x01) == 0x01); //if LSB is on, sets the bool in storageTube
   storageTube->tube1 = ((info & 0x02) == 0x02);
-  storageTube->tube2 = ((info & 0x03) == 0x03);
-  storageTube->tube3 = ((info & 0x04) == 0x04);
+  storageTube->tube2 = ((info & 0x04) == 0x04);
+  storageTube->tube3 = ((info & 0x08) == 0x08);
 }
 
 /** Updates the supply tubes with the relevant booleans
@@ -70,8 +63,8 @@ void Bluetooth::updateStorage(byte info){
 void Bluetooth::updateSupply(byte info){
   supplyTube->tube0 = ((info & 0x01) == 0x01); //if LSB is on, sets the bool in supplyTube
   supplyTube->tube1 = ((info & 0x02) == 0x02);
-  supplyTube->tube2 = ((info & 0x03) == 0x03);
-  supplyTube->tube3 = ((info & 0x04) == 0x04);
+  supplyTube->tube2 = ((info & 0x04) == 0x04);
+  supplyTube->tube3 = ((info & 0x08) == 0x08);
 }
 
 /** sends the Heartbeat

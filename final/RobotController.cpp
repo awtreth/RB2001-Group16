@@ -65,13 +65,19 @@ void RobotController::update()
 	long int current_time = millis();
 	
 	if((current_time - last_hb_time) > HEARTBEAT_PERIOD)
+  {
 		bluetooth.sendHB();
-	
+    last_hb_time = current_time;
+  }
 	//if((current_time - last_update_time) > SEND_STATUS_PERIOD)
 		//bluetooth.sendStatus(this->moveStat, this->gripStat, this->opStat);
-	
-	//if((current_time - last_rad_alarm_time) > RADIATION_ALARM_PERIOD)
-		//bluetooth.sendRadiation(this->radLevel);
+
+  this->radLevel = 2;
+	if((current_time - last_rad_alarm_time) > RADIATION_ALARM_PERIOD)
+	{	
+	  bluetooth.sendRadiation(this->radLevel);
+	  last_rad_alarm_time = current_time;
+	}
 }
 
 /*int RobotController::stop()

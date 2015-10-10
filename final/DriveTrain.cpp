@@ -26,6 +26,12 @@ void DriveTrain::attachLnSensors(int left_pin, int right_pin, int side_pin, int 
   ln_sensor[BACK_LS].attachPin(back_pin);
 }
 
+void DriveTrain::attachStoppers(int reactor_stopper_pin, int wall_stopper_pin)
+{
+  reactor_stopper.setPin(reactor_stopper_pin);
+  wall_stopper.setPin(wall_stopper_pin);
+}
+
 
 void DriveTrain::stop()
 {
@@ -180,7 +186,7 @@ int DriveTrain::moveStraight(int n_line_crossings, int speed)
      }
   }
 
-  if(missing_lines == 0  || stopper.isPressed())
+  if(missing_lines == 0  || wall_stopper.isPressed() || reactor_stopper.isPressed())
   {
     this->stop();
     new_move = true;
