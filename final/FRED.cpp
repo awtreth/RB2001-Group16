@@ -2,7 +2,10 @@
 #include "FRED.H"
 #include "util.h"
 
-#define DEFAULT_FRED_SPEED 0 //TODO: calibrate
+#define DROP_SPEED 0 //TODO: calibrate
+#define LIFT_SPEED 0 //TODO: calibrate
+#define KEEP_UP_SPEED 0 //TODO: calibrate
+#define STOP 90 // motor-off speed
 
 FRED::FRED()
 {
@@ -28,19 +31,23 @@ int FRED::moveGripperUp()
 {
 	if(hi_stopper.isPressed()) 
 	{
-	  lift_motor.write(/*TOD: Tune this value to avoid overtorquing*/);
+	  lift_motor.write(KEEP_UP_SPEED);
 	  return DONE;
 	}
   else
   {
-    lift_motor.write();  
+    lift_motor.write(LIFT_SPEED);  
   }
 	return NOT_DONE_YET;
 }
 
 int FRED::moveGripperDown()
 {
-	if (lo_stopper.isPressed()) return DONE;
+	if (lo_stopper.isPressed()) 
+	{
+	  lift_motor.write(STOP); // all stop
+	  return DONE;
+	}
   else 
   {
     lift_motor.write(/*TODO: Tune this value*/);
@@ -51,7 +58,12 @@ int FRED::moveGripperDown()
 //TurnGripper
 int FRED::turnGripper(GripperOrientation orientation)
 {
-	//TODO
+	switch (orientation)
+  {
+    case HORIZONTAL:  turn_gripper.write();
+    case VERTICAL: turn_gripper.write();
+    default: // do nothing  
+  }
 	return NOT_DONE_YET;
 }
 
