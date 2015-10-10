@@ -22,8 +22,8 @@ class FRED//TODO: translation of FRED
   
 	public:
 
-  Switch fred_stopper;
-  PidController lifter_pid;
+  Switch lo_stop;
+  Switch hi_stop;
   
 	FRED(); // unused constructor
 	FRED(int lift_motor_pin, int turn_gripper_pin, int gripper_pin, int sw_pin);
