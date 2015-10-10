@@ -36,7 +36,7 @@ int RobotController::execute(Action action)
 
 void RobotController::printTubes()
 {
-	Serial.print("StorageArea:	");
+	Serial.print("StorageArea: ");
 	for (int i = 0; i < 4; i++)
 	{
 		Serial.print((int)storageTube.tube[i]);
@@ -44,7 +44,7 @@ void RobotController::printTubes()
 	}
 	Serial.print('\n');
 	
-	Serial.println("SupplyArea:		");
+	Serial.print("SupplyArea:  ");
 	
 	for (int i = 0; i < 4; i++)
 	{
