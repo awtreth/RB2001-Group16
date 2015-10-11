@@ -32,6 +32,6 @@ void loop()
 {
   
   robot.update();//take care of all the communication stuffs
-  robot.printTubes();
-  //current_action += robot.execute(action_sequence[current_action]);
+  //robot.printTubes();
+  current_action += robot.execute(action_sequence[current_action]);
 }
