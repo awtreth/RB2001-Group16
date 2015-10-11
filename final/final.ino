@@ -21,6 +21,7 @@ void setup() {
   mySetup();
   Switch starter_switch(STARTER_SWITCH_PIN);
   starter_switch.waitOn();
+  robot.update();
   Serial.println("GO");
 }
 
@@ -29,6 +30,8 @@ int fred_test = NOT_DONE_YET;
 
 void loop()
 {
-  //robot.update();//take care of all the communication stuffs
-  current_action += robot.execute(action_sequence[current_action]);
+  
+  robot.update();//take care of all the communication stuffs
+  robot.printTubes();
+  //current_action += robot.execute(action_sequence[current_action]);
 }

@@ -51,7 +51,7 @@ int RobotController::reactor2storage()
 	
 	static Action action_seq[] = 
 	{
-		Action(MOVE_BACKWARD, 0, DEFAULT_SPEED),//to be decided
+		Action(MOVE_BACKWARD),//to be decided
 		Action(TURN, RIGHT),//to be decided
 		Action(MOVE_FORWARD, 0, DEFAULT_SPEED)
 	};

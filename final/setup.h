@@ -31,12 +31,14 @@ RobotController robot;
 
 Action action_sequence[] = 
 {
-  Action(MOVE_FORWARD, 2),
+  REACTOR_TO_STORAGE
+  /*Action(MOVE_FORWARD, 2),
   Action(TURN, LEFT),
   Action(MOVE_FORWARD),
   Action(MOVE_BACKWARD,1),
   Action(TURN, LEFT),
   Action(MOVE_FORWARD),
+  */
  // Action(DECIDE_NEXT_TURN),
   //...
 };
