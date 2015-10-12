@@ -6,36 +6,41 @@
 #include "PidController.h"
 #include "Switch.h"
 
-enum GripperPosition{OPEN, CLOSED};
+enum GripperPosition{OPEN, CLOSE};
 enum LifterAction{MOVE_UP, MOVE_DOWN};
 enum GripperOrientation{HORIZONTAL, VERTICAL};
 
-//Just basic movments of fred
-class FRED//TODO: translation of FRED
+///Fuel Rod Extractor Device
+/**
+ * Do all the basic movements needed to take/place the rod
+ */
+class FRED
 {
 
 	private:
   
-  Servo lift_motor;
+	Servo lift_motor;
 	Servo turn_gripper;
-  Servo gripper_servo;
+	Servo gripper_servo;
   
 	public:
 
-  Switch lo_stopper;
-  Switch hi_stopper;
+	Switch lo_stopper;
+	Switch hi_stopper;
   
 	FRED(); // unused constructor
 	FRED(int lift_motor_pin, int turn_gripper_pin, int gripper_pin, int hi_pin, int lo_pin);
 
+  void setPins(int lift_motor_pin, int turn_gripper_pin, int gripper_pin, int hi_pin, int lo_pin);
+
 	//the next functions return DONE(=1) or NOT_DONE_YET(=0)
 	//constants defined in "util.h"
 	int moveGripper(LifterAction movement);
-	int moveGripperUp();
-  int moveGripperDown();
+	int moveGripperUp();///lift gripper
+	int moveGripperDown();///put gripper down
   
 	int turnGripper(GripperOrientation orientation);
-	int gripper(GripperPosition state);
+	int	gripper(GripperPosition state);
 
 };
 

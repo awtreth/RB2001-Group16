@@ -8,7 +8,8 @@ enum ActionType {
 	//general actions
 	TURN, MOVE_FORWARD, MOVE_BACKWARD,
 	GRIPPER, TURN_GRIPPER, MOVE_GRIPPER,
-	STOP, ALARM,
+	STOP, SET_ALARM, WAIT, CHANGE_OPSTAT, 
+	CHANGE_GRIPPERSTAT,CHANGE_MOVESTAT, 
 
   //macroActions
   REACTOR_TO_STORAGE, STORAGE_TO_SUPPLY, SUPPLY_TO_REACTOR,
@@ -44,18 +45,19 @@ class Action
     int n_line_crossings;;//we can create constants for default values of speed
     TurnDirection direction;//for turn (LEFT_TURN or RIGHT_TURN)
     GripperPosition position;//for gripper itself (OPEN or CLOSE)
-    LifterAction movment;//for lifter (MOVE_UP or MOVE_DOWN) 
+    LifterAction movement;//for lifter (MOVE_UP or MOVE_DOWN) 
     GripperOrientation orientation;//for lifter (MOVE_UP or MOVE_DOWN)
-    int supply_dest;
-    int from_supply;
-    int from_reactor;
+    int duration;
+    int rad_level;
+
+    //int from_reactor;
   };
 
   union
   {
     int param2;
-    int storage_dest;
-    int from_storage;
+    //int storage_dest;
+    //int from_storage;
     LineSensorIndex stopper_sensor; //for turn (SIDE_LS or BACK_LS)
     int speed;//for MOVE_FORWARD and MOVE_BACKWARD
   };
@@ -63,7 +65,7 @@ class Action
   union
   {
     int param3;
-    int goal_reactor;
+    //int goal_reactor;
   };
   
 };

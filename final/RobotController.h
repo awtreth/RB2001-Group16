@@ -14,47 +14,75 @@
 
 class RobotController
 {
-	public:
-	
-	RobotController();
-	
-	DriveTrain drive_train;
-	FRED fred;
+  public:
 
-  //Bluetooth will update these variables automatically
-	StorageTube storageTube;
-	SupplyTube supplyTube;
-	bool stop;
-  
-  int my_position; //0-3 
-  int goal_reactor;//1 or 2
-  
-	void printTubes();
-	
-	
-	int radLevel;
-	
-	//int macro_action_i;
-	
-	Bluetooth bluetooth;
-	
-	int execute(Action action);
-	void update();
-	//int execute(MacroAction action_seq);
-	//int stop();
-	//int resume();
+    enum MovementStatus { //Movement Status
+      STOPPED = 0x01,
+      MOVINGTELE = 0x02,
+      MOVINGAUTO = 0x03
+    }moveStat;
 
-	void setAlarmPin(int pin_number);
-	void alarmOn(); 
-	void alarmOff();
+    enum gripperStatus { //Gripper Status
+      NOROD = 0x01,
+      ROD = 0x02
+    }gripStat;
 
-	int reactor2storage();
-  int storage2supply();
-  int supply2reactor();
+    enum operationStatus { //Operation Status
+      GRIPATTEMPT = 0x01,
+      GRIPRELEASE = 0x02,
+      DRIVINGREACTOR = 0x03,
+      DRIVINGSTORAGE = 0x04,
+      DRIVINGSUPPLY = 0x05,
+      IDLE = 0x06
+    }opStat;
 
-	private:
-  
-	int alarm_pin;
+    RobotController();
+
+    DriveTrain drive_train;
+    FRED fred;
+
+    //Bluetooth will update these variables automatically
+    StorageTube storageTube;
+    SupplyTube supplyTube;
+    bool stop;
+
+    int my_position; //0-3
+    int goal_reactor;//1 or 2
+
+    void printTubes();
+
+
+    int radLevel;
+
+    //int macro_action_i;
+
+    Bluetooth bluetooth;
+
+    int execute(Action action);
+    void update();
+    //int execute(MacroAction action_seq);
+    //int stop();
+    //int resume();
+
+    void setAlarmPins(int pin_number_low, int pin_number_high);
+    int setAlarm(int level_to_set);
+    void alarmOn();
+    void alarmOff();
+
+    int setOpStat(int new_OpStat);
+    int setGripStat(int new_GripStat);
+    int setMoveStat(int new_MoveStat);
+
+    int reactor2storage();
+    int storage2supply();
+    int supply2reactor();
+
+    int waitDur(unsigned int duration);
+
+  private:
+
+    int alarm_pin_low;
+    int alarm_pin_high;
 };
 
 #endif

@@ -1,6 +1,8 @@
 #ifndef SETUP_H
 #define SETUP_H
 
+#include "FRED.h"
+
 //Let's put initial setup configuration here
 
 #define LEFT_MOTOR_PIN  6
@@ -15,33 +17,73 @@
 #define SIDE_LN_SENSOR_PIN 	A3
 #define BACK_LN_SENSOR_PIN 	A2
 
-#define REACTOR_SWITCH_PIN  27
-#define WALL_SWITCH_PIN     25
-#define STARTER_SWITCH_PIN 29
+#define REACTOR_SWITCH_PIN  29
+#define WALL_SWITCH_PIN     28
+#define STARTER_SWITCH_PIN 27
 
-// FRED 
+// FRED
 #define GRIPPER_PIN 4
 #define ANGLE_PIN 5
-#define LIFT_PIN 9
-#define HI_PIN 29
-#define LO_PIN 28
+#define LIFT_PIN 8
+#define HI_PIN 25
+#define LO_PIN 26
 
 
 RobotController robot;
+Action gripper_test[] = {
+  
+  //we can put this in a MacroAction
+  Action(MOVE_GRIPPER, MOVE_UP),
+  Action(GRIPPER, OPEN),
+  Action(TURN_GRIPPER, VERTICAL),
+  Action(MOVE_FORWARD),
+  Action(MOVE_GRIPPER, MOVE_DOWN),
+  Action(WAIT, 1000),
+  Action(GRIPPER, CLOSE),
+  Action(WAIT, 1000),
+  Action(SET_ALARM, 1),
+  Action(MOVE_GRIPPER, MOVE_UP),
+  Action(TURN_GRIPPER, HORIZONTAL),
+  
+  Action(REACTOR_TO_STORAGE),
 
-Action action_sequence[] = 
+  Action(SET_ALARM, 0),
+  Action(GRIPPER, OPEN),
+  Action(WAIT, 1000),
+
+  Action(STORAGE_TO_SUPPLY),
+
+  Action(WAIT, 1000),
+  Action(GRIPPER, CLOSE),
+  Action(WAIT, 1000),
+
+  Action(SUPPLY_TO_REACTOR),
+
+  Action(TURN_GRIPPER, VERTICAL),
+  Action(WAIT, 1000),
+  Action(MOVE_GRIPPER, MOVE_DOWN),
+  Action(SET_ALARM, 0),
+  Action(WAIT, 1000),
+  Action(GRIPPER, OPEN),
+  Action(MOVE_GRIPPER, MOVE_UP)
+};
+
+Action action_sequence[] =
 {
-  REACTOR_TO_STORAGE,
+  //gripper_test   
+  
+  /*REACTOR_TO_STORAGE,
   STORAGE_TO_SUPPLY,
-  SUPPLY_TO_REACTOR
+  SUPPLY_TO_REACTOR*/
+
   /*Action(MOVE_BACKWARD, 1),
   Action(TURN, RIGHT),
   Action(MOVE_FORWARD),
   Action(MOVE_BACKWARD,1),
   Action(TURN, LEFT),
   Action(MOVE_FORWARD)*/
-  
- // Action(DECIDE_NEXT_TURN),
+
+  // Action(DECIDE_NEXT_TURN),
   //...
 };
 
@@ -52,7 +94,7 @@ void mySetup()
   robot.drive_train.attachLnSensors(LEFT_LN_SENSOR_PIN, RIGHT_LN_SENSOR_PIN, SIDE_LN_SENSOR_PIN, BACK_LN_SENSOR_PIN);//at first we'll try without back_pin
   robot.drive_train.attachStoppers(REACTOR_SWITCH_PIN, WALL_SWITCH_PIN);//at first we'll try without back_pin
   robot.drive_train.pid.setConstants(LN_TRACK_KP, LN_TRACK_KI, LN_TRACK_KD);
-  robot.drive_train.pid.setLimits(-90,+90);
+  robot.drive_train.pid.setLimits(-90, +90);
 
   //SETUP FRED
   robot.fred = FRED(LIFT_PIN, ANGLE_PIN, GRIPPER_PIN, HI_PIN, LO_PIN);

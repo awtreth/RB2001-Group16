@@ -49,25 +49,7 @@ public:
     HEARTBEAT = 0x07
   };
 
-  enum MovementStatus{ //Movement Status
-    STOPPED = 0x01,
-    MOVINGTELE = 0x02,
-    MOVINGAUTO = 0x03
-  };
-
-  enum gripperStatus{ //Gripper Status
-    NOROD = 0x01,
-    ROD = 0x02    
-  };
-
-  enum operationStatus{ //Operation Status
-    GRIPATTEMPT = 0x01,
-    GRIPRELEASE = 0x02,
-    DRIVINGREACTOR = 0x03,
-    DRIVINGSTORAGE = 0x04,
-    DRIVINGSUPPLY = 0x05,
-    IDLE = 0x06
-  };
+  
   
   void update(); //Runs every loop to update Bluetooth info
   void setup(); //Sets up the relevant information in the Setup
