@@ -2,9 +2,6 @@
 #include "DriveTrain.h"
 #include "util.h"
 
-//#define LEFT_MOTOR_REF 700
-//#define RIGHT_MOTOR_REF 40//right motor turns faster than the left
-
 //This constructor didn't work (very weird)
 DriveTrain::DriveTrain(int left_motor_pin, int right_motor_pin)
 {
@@ -14,7 +11,7 @@ DriveTrain::DriveTrain(int left_motor_pin, int right_motor_pin)
 
 void DriveTrain::attachMotors(int left_motor_pin, int right_motor_pin)
 {
-  this->left_motor.attach(left_motor_pin);
+  this->left_motor.attach(left_motor_pin); 
   this->right_motor.attach(right_motor_pin);
 }
 

@@ -14,13 +14,22 @@
 ///Name of the actions
 enum ActionType {
 	///simple actions
-	TURN, MOVE_FORWARD, MOVE_BACKWARD,
-	GRIPPER, TURN_GRIPPER, MOVE_GRIPPER,
-	STOP, SET_ALARM, WAIT,
+	TURN,
+  MOVE_FORWARD,
+  MOVE_BACKWARD,
+  GRIPPER,
+  TURN_GRIPPER,
+  MOVE_GRIPPER,
+	STOP,
+  SET_ALARM,
+  WAIT,
 
-    ///macroActions (include more than one simple action
-    REACTOR_TO_STORAGE, STORAGE_TO_SUPPLY, SUPPLY_TO_REACTOR,
-    TAKE_GRIPPER, PUT_GRIPPER,
+  ///macroActions (include more than one simple action
+  REACTOR_TO_STORAGE,
+  STORAGE_TO_SUPPLY,
+  SUPPLY_TO_REACTOR,
+  TAKE_GRIPPER,
+  PUT_GRIPPER,
   
 	N_ACTION_TYPE
 };
@@ -37,11 +46,11 @@ class Action
   Action(){}
   
   ///Initialize the 
-  Action(ActionType type, int param1 = 0, int param2 = 0)
+  Action(ActionType type, int param1 = 0, int param2 = 0) ///If there isn't a param passed, defaults to 0 and therefore ignores it
   {
-    this->type = type;
-    this->param1 = param1;
-    this->param2 = param2;
+    this->type = type; //The type is the general action, see above table for type list
+    this->param1 = param1; //params are modifiers for the action. Direction to turn, speed, etc. See param1 union for specifics
+    this->param2 = param2; //see param2 union for specifics
   }
   
   ///Param 1
@@ -60,7 +69,7 @@ class Action
 
     ///Param 2
     union
-    {//param2 has many names as well
+    {//param2 has less names, but still important
         int param2;
         
         int speed;//for MOVE_FORWARD and MOVE_BACKWARD

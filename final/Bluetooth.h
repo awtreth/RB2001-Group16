@@ -5,8 +5,9 @@
 #include "BluetoothMaster.h"
 #include "ReactorProtocol.h"
 
-union StorageTube{ //Stores the storage tube availability (Should these be objects????)
-	
+union StorageTube{ //Stores the storage tube availability
+	//union is used to allow us to access the bools in an array. 
+  //that lets us find valid tubes easier
 	struct{    
 		bool tube0;
 		bool tube1;
@@ -34,12 +35,7 @@ class Bluetooth
 public:
   Bluetooth();
   
-  //bool sendHB_flag; //Timer based bool _on whether to send the heartbeat
-  //bool Go; //Public bool on whether to go or not. Changeable by Bluetooth command
-  //int teamName; //The Team name
-  //int radLevel; //0 for none, 1 for Low, 2 for High. ONLY called on timer flag and with radLevel > 0
-
-  enum MessageType{ //Different types of message types to be recieved
+  enum MessageType{ //Different types of messages to be recieved and sent
     STORAGE = 0x01,
     SUPPLY = 0x02,
     RADIATION = 0x03,
@@ -51,10 +47,8 @@ public:
 
   
   
-  void update(); //Runs every loop to update Bluetooth info
+  void update(); //Runs every loop to update Bluetooth info. Looks for valid packets and sends if need be
   void setup(); //Sets up the relevant information in the Setup
-
-  //static void timerISR(); //ISR to send the heartbeat and any relevant info
 
   void updateStorage(byte info); //This updates the Storage struct with the availability
   void updateSupply (byte info); //This updates the Supply struct with the availability
@@ -63,6 +57,7 @@ public:
   void sendRadiation(int radLevel); //Sends the corresponding rad level
   void sendStatus(byte moveStat, byte gripStat, byte opStat); //packages and sends a byte with the given status 
 
+  //This sets the locations of the StorageTube, SupplyTube, and stop pointers
 	void setInputPointers(StorageTube* storage_tube, SupplyTube* supply_tube, bool* stop_flag){
 		this->storageTube = storage_tube;
 		this->supplyTube = supply_tube;
@@ -80,8 +75,7 @@ private:
 
   volatile unsigned long elapsedTics; //for the ISR
 
-	//BluetoothClient bt;
-	BluetoothMaster btmaster;
+	BluetoothMaster btmaster; //sets variables to store the instance of BTMaster and Protocol
 	ReactorProtocol pcol;
 	
 	StorageTube *storageTube;

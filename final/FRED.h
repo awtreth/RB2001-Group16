@@ -19,7 +19,7 @@ class FRED
 
 	private:
   
-	Servo lift_motor;
+	Servo lift_motor; //The Servos for the FRED
 	Servo turn_gripper;
 	Servo gripper_servo;
   
