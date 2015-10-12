@@ -12,7 +12,7 @@ class LineSensor
 	
 	LineSensor();///< Attachs to A0 port by default
 	
-	LineSensor(int pin_number);
+	LineSensor(int pin_number);///< setPin
 	
 	void attachPin(int pin_number);
 	
@@ -22,14 +22,12 @@ class LineSensor
 	/** 
 	 * \param take_last If it's true, analyse last read value. Otherwise, it'll read
 	 * \return True if it's black. False otherwise
-	 * \sa isWhite()
 	 */
 	bool isWhite(bool take_last = false);
 	
 	/** 
 	 * \param take_last If it's true, analyse last read value. Otherwise, it'll read
 	 * \return True if it's black. False otherwise
-	 * \sa isBlack()
 	 */
 	bool isBlack(bool take_last = false);
 };

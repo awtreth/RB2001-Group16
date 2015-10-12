@@ -1,7 +1,7 @@
 #include "LineSensor.h"
 
-#define BLACK_REF 700
-#define WHITE_REF 100
+#define BLACK_THRESHOLD 700//Values greater than this are considered black 
+#define WHITE_THRESHOLD 100//Values smaller than this are considered white
 
 #include "Arduino.h"
 
@@ -31,23 +31,25 @@ int LineSensor::read()
 bool LineSensor::isBlack(bool take_last)
 {
 	int value = 0;
+	
 	if(take_last)
 		value = last_read;
 	else
 		value = this->read();
 		
-	return (value > BLACK_REF);
+	return (value > BLACK_THRESHOLD);
 }
 
 bool LineSensor::isWhite(bool take_last)
 {
 	int value = 0;
+	
 	if(take_last)
 		value = last_read;
 	else
 		value = this->read();
 		
-	return (value < WHITE_REF);
+	return (value < WHITE_THRESHOLD);
 }
 
 int LineSensor::get()

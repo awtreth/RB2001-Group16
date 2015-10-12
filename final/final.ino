@@ -34,4 +34,5 @@ void loop()
   robot.update();//take care of all the communication stuffs
   //robot.printTubes();
   current_action += robot.execute(gripper_test[current_action]);
+  Serial.println(current_action);
 }

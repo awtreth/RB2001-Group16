@@ -53,7 +53,7 @@ int RobotController::execute(Action action)
       case TURN_GRIPPER: return this->fred.turnGripper(action.orientation); break;
       case MOVE_GRIPPER: return this->fred.moveGripper(action.movement); break;
       case WAIT: return this->waitDur(action.duration); break;
-
+      case SET_ALARM: return this->setAlarm(action.rad_level);
       
       //MACRO_ACTIONS
       case REACTOR_TO_STORAGE:
@@ -267,7 +267,7 @@ int RobotController::waitDur(unsigned int duration) {
     newWait = false;
   }
 
-  if (millis() - start > duration) {
+  if ((millis() - start) > duration) {
     newWait = true;
     return DONE;
   }
@@ -302,6 +302,8 @@ void RobotController::setAlarmPins(int pin_number_low, int pin_number_high)
   alarm_pin_high = pin_number_high;
   pinMode(pin_number_low, OUTPUT);
   pinMode(pin_number_high, OUTPUT);
+  digitalWrite(pin_number_low, HIGH);
+  digitalWrite(pin_number_high, HIGH);
 }
 
 

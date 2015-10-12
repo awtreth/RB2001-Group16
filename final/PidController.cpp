@@ -1,21 +1,20 @@
-
 #include "PidController.h"
 #include "Arduino.h"
 
 #define DEFAULT_SAMPLE_TIME 75
 
 PidController::PidController()
-{
+{//Set default values
 	this->kp = 1;
 	this->kd = 0;
 	this->ki = 0;
-	this->setLimits(-1023, 1023);//default values
+	this->setLimits(-1023, 1023);
 	this->setSampleTime(DEFAULT_SAMPLE_TIME);
 	this->reset();
 }
 
 PidController::PidController(double Kp, double Ki, double Kd)
-{//TODO: check the limits
+{ //TODO: check the limits
 	this->setConstants(Kp, Ki, Kd);
 	this->reset();
 }
@@ -27,21 +26,19 @@ double PidController::calc(double error)
 
 double PidController::calc(double target, double sensor_value)
 {
-	now = millis();
+	now = millis();//current_time
 	dt = now - last_time;
 	
-	if(dt >= sample_time)
+	if(dt >= sample_time)//try to keep dt constant in each iteration
 	{
 		error = target - sensor_value;
 		sum += error;
-		
 		
 		double output = kp*error + kd*(error-last_error)/dt + ki*sum*dt;
 		
 		output = constrain(output, min_output, max_output);
 		
 		last_output = output;
-		
 		last_error = error;
 		last_time = now;
 	}else

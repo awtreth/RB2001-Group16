@@ -96,7 +96,8 @@ int DriveTrain::turn90(TurnDirection dir)
 {
   static bool came_from_white = false;
   static bool already_turn = false;
-
+  long int last_time;
+  
   LineSensorIndex turn_sensor;
 
   if (dir == RIGHT) {
@@ -104,13 +105,15 @@ int DriveTrain::turn90(TurnDirection dir)
   } else if (dir == LEFT) {
     turn_sensor = SIDE_LS;
   }
+  
   if (!already_turn)
   {
+    last_time = millis();
     this->turn(dir);
     already_turn = true;
   }
 
-  if (!came_from_white)
+  if (!came_from_white || (millis()-last_time > 500))
   {
     if (ln_sensor[turn_sensor].isWhite())
       came_from_white = true;

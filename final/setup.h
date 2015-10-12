@@ -12,9 +12,9 @@
 #define LN_TRACK_KP .017
 #define LN_TRACK_KD 40
 #define LN_TRACK_KI 0
-#define LEFT_LN_SENSOR_PIN 	A1
-#define RIGHT_LN_SENSOR_PIN A0
-#define SIDE_LN_SENSOR_PIN 	A3
+#define LEFT_LN_SENSOR_PIN 	A4
+#define RIGHT_LN_SENSOR_PIN A3
+#define SIDE_LN_SENSOR_PIN 	A5
 #define BACK_LN_SENSOR_PIN 	A2
 
 #define REACTOR_SWITCH_PIN  29
@@ -28,6 +28,9 @@
 #define HI_PIN 25
 #define LO_PIN 26
 
+///
+#define ALARM_PIN_LOW  16
+#define ALARM_PIN_HIGH 17
 
 RobotController robot;
 Action gripper_test[] = {
@@ -48,6 +51,7 @@ Action gripper_test[] = {
   Action(REACTOR_TO_STORAGE),
 
   Action(SET_ALARM, 0),
+  Action(WAIT, 1000),
   Action(GRIPPER, OPEN),
   Action(WAIT, 1000),
 
@@ -99,6 +103,7 @@ void mySetup()
   //SETUP FRED
   robot.fred = FRED(LIFT_PIN, ANGLE_PIN, GRIPPER_PIN, HI_PIN, LO_PIN);
   //...
+  robot.setAlarmPins(ALARM_PIN_LOW, ALARM_PIN_HIGH);
 }
 
 
