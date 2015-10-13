@@ -25,9 +25,9 @@ bool Switch::isPressed()
 	return !digitalRead(pin);//just for pull-up for now
 }
 
-bool Switch::waitOn(int how_long)
+bool Switch::waitOn(unsigned int how_long)
 {
-	long int last_time = millis();//start_time at this point
+	unsigned int last_time = millis();//start_time at this point
   
 	//polling loop
 	while(!this->isPressed())//while it is not pressed
@@ -43,7 +43,7 @@ bool Switch::waitOn(int how_long)
 	return true;
 }
 
-bool Switch::waitOff(int how_long)
+bool Switch::waitOff(unsigned int how_long)
 {
 	long int last_time = millis();//start_time at this point
 	
@@ -62,7 +62,7 @@ bool Switch::waitOff(int how_long)
 	return true;
 }
 
-bool Switch::waitChange(int how_long)
+bool Switch::waitChange(unsigned int how_long)
 {
 	bool state = this->isPressed();//store the state that the switch was when we called the function
 	long int last_time = millis();//start_time at this point

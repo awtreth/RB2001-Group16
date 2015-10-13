@@ -89,9 +89,9 @@ int DriveTrain::turn90(TurnDirection dir)
   static bool came_from_white = false;
   static bool already_turn = false;
   
-  long int last_time;
+  long int last_time = millis();
   
-  LineSensorIndex turn_sensor;
+  LineSensorIndex turn_sensor = BACK_LS;
 
   if (dir == RIGHT) {
     turn_sensor = BACK_LS; //TODO: put turn_sensor as an argument

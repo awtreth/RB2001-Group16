@@ -38,7 +38,7 @@ class Switch
 	 * \return True if it was pressed. False if the set time has elapsed first
 	 */
 	 
-	bool waitOn(int how_long = 0);
+	bool waitOn(unsigned int how_long = 0);
 	
 	/** Wait the button to be depressed
 	 * 
@@ -48,7 +48,7 @@ class Switch
 	 * \param how_long Waiting time in milliseconds. It has to greater than 50 or 0 (it will wait only until the button is depressed)
 	 * \return True if it was depressed. False if the set time has elapsed first
 	 */
-	bool waitOff(int how_long = 0); //0 - forever
+	bool waitOff(unsigned int how_long = 0); //0 - forever
 	
 	/** Wait for a change in button state
 	 * 
@@ -58,7 +58,7 @@ class Switch
 	 * \param how_long Waiting time in milliseconds. It has to greater than 50 or 0 (it will wait only until a change event)
 	 * \return True if it has changed. False if the set time has elapsed first
 	 */
-	bool waitChange(int how_long = 0); //0 - forever
+	bool waitChange(unsigned int how_long = 0); //0 - forever
 	
 };
 

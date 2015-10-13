@@ -11,9 +11,9 @@ RobotController::RobotController()
   my_position = 0; //0-3
   goal_reactor = 1;//1 or 2
 
-  this->moveStat;
-  this->gripStat;
-  this->opStat;
+  //this->moveStat;
+  //this->gripStat;
+  //this->opStat;
 }
 
 int RobotController::execute(Action action)
