@@ -6,6 +6,8 @@
 //return values for smart movments (for FRED and DriveTrain)
 enum {NOT_DONE_YET = 0, DONE = 1};
 
+int waitDuration(unsigned int duration);
+
 //For param Tuning
 class ParamParser
 {

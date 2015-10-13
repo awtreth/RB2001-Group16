@@ -10,7 +10,7 @@
 
 // Line trackers
 #define LN_TRACK_KP .015
-#define LN_TRACK_KD 15
+#define LN_TRACK_KD 14
 #define LN_TRACK_KI 0
 #define LEFT_LN_SENSOR_PIN 	A3
 #define RIGHT_LN_SENSOR_PIN A4
@@ -55,7 +55,7 @@ Action action_sequence[] = {
   //Action(MOVE_FORWARD, -1),
   //Action(WAIT, 1000),
   
-  Action(MOVE_BACKWARD, 1),
+  //Action(MOVE_BACKWARD, 1),
   Action(REACTOR_TO_STORAGE),
 
   Action(SET_ALARM, 0),

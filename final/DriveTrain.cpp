@@ -88,16 +88,24 @@ int DriveTrain::turn90(TurnDirection dir)
     //Static variable are initialized just one time, at the first call
   static bool came_from_white = false;
   static bool already_turn = false;
+  static bool left_sensor = false;
+  static bool right_sensor = false;
   
   static unsigned int last_time = millis();
   
-  LineSensorIndex turn_sensor = BACK_LS;
+  /*LineSensorIndex turn_sensor = BACK_LS;
 
   if (dir == RIGHT) {
-    turn_sensor = SIDE_LS; //TODO: put turn_sensor as an argument
+    turn_sensor = BACK_LS; //TODO: put turn_sensor as an argument
   } else if (dir == LEFT) {
     turn_sensor = SIDE_LS;
+  }*/
+  if (!came_from_white)
+  {
+    if (ln_sensor[SIDE_LS].isWhite())
+      came_from_white = true;
   }
+
   
   //This condition avoid not necessary turn commands
   if (!already_turn)
@@ -107,22 +115,28 @@ int DriveTrain::turn90(TurnDirection dir)
     already_turn = true;
   }
 
-    //this waiting was necessary, because sometimes the sensor starts facing the white surface in the wrong side of the line (opposite to the turn direction). In this case, the first line crossing the robot senses is the wrong line (where it was suppose to be facing at the beggining). So, the sulution is to start turning for a while and then verify if it's black (white first)
-  if (!came_from_white && (millis()-last_time > 1300))
-  {
-    //It waits the turn_sensor to sense white to start looking for black state (when it hits a crossing line)
-    //it is necessary, because the sensor can start facing a black line
-    if (ln_sensor[turn_sensor].isWhite())
-      came_from_white = true;
-  }
-
-  if (came_from_white)
+  if (came_from_white && (millis()-last_time > 1300))
   {//It just start checking if the sensor is black when it has already sensed white once
-    if (ln_sensor[turn_sensor].isBlack())
+    if (!left_sensor && ln_sensor[BACK_LS].isBlack())
     {
-      this->stop();
-      came_from_white = false;
+      waitDuration(100);
+      left_motor.write(90);//stop the motor
+      left_sensor = true;
+    }
+
+    if (!right_sensor && ln_sensor[SIDE_LS].isBlack())
+    {
+      waitDuration(110);
+      right_motor.write(90);//stop the motor
+      right_sensor = true;
+    }
+
+    if(left_sensor && right_sensor)
+    {
       already_turn = false;
+      left_sensor = false;
+      right_sensor = false;
+      came_from_white = false;
       return DONE;
     }
   }

@@ -6,10 +6,10 @@
 #define DROP_SPEED 	      100 //TODO: calibrate
 #define LIFT_SPEED 	      45 // calibrated
 #define STOP 		          90 // motor-off speed
-#define SPECIAL_GRAB_SET  65
-#define SPECIAL_VERT_SET  155
-#define HOR_SET 	        58
-#define VERT_SET 	        150
+#define SPECIAL_GRAB_SET  58
+#define SPECIAL_VERT_SET  148
+#define HOR_SET 	        62
+#define VERT_SET 	        155
 
 FRED::FRED()
 {

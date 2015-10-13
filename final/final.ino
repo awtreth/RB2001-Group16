@@ -22,8 +22,10 @@ void setup() {
   Serial.begin(38400);
   mySetup();
   Switch starter_switch(STARTER_SWITCH_PIN);
-  starter_switch.waitOn();
-  robot.update();
+  
+  while(!starter_switch.isPressed())
+    robot.update();
+  //starter_switch.waitOn();
   Serial.println("GO");
   //parser.add('p', &kp);
   //parser.add('i', &ki);
@@ -40,8 +42,6 @@ void loop()
   //robot.drive_train.moveBackward();
   robot.update();//take care of all the communication stuffs
   //robot.printTubes();
-  current_action += robot.execute(action_sequence[current_action]);  Serial.println(current_action);
-  //Serial.print(analogRead(A3));
-  //Serial.print("    ");
-  //Serial.println(analogRead(A4));
+  current_action += robot.execute(action_sequence[current_action]);
+  //Serial.println(current_action);
 }

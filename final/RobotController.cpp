@@ -52,7 +52,7 @@ int RobotController::execute(Action action)
         break;
       case TURN_GRIPPER: return this->fred.turnGripper(action.orientation); break;
       case MOVE_GRIPPER: return this->fred.moveGripper(action.movement); break;
-      case WAIT: return this->waitDur(action.duration); break;
+      case WAIT: return waitDuration(action.duration); break;
       case SET_ALARM: return this->setAlarm(action.rad_level);
       
       //MACRO_ACTIONS
@@ -139,9 +139,9 @@ int RobotController::storage2supply()
   static Action action_seq[] =
   {
     Action(MOVE_BACKWARD, 1, DEFAULT_SPEED),//return to center
-    Action(TURN, RIGHT),//to be decided
+    Action(TURN, LEFT),//to be decided
     Action(MOVE_FORWARD, 0, DEFAULT_SPEED),//to be decided
-    Action(TURN, RIGHT),//to be decided
+    Action(TURN, LEFT),//to be decided
     Action(MOVE_FORWARD, -1, DEFAULT_SPEED)
   };
 
@@ -154,11 +154,11 @@ int RobotController::storage2supply()
     if (goal_reactor == 1)
     {
       for (i = 0; i < 4; i++)
-        if (!storageTube.tube[i]) break;
+        if (storageTube.tube[i]) break;
     } else if (goal_reactor == 2)
     {
       for (i = 3; i >= 0; i--)
-        if (!storageTube.tube[i]) break;
+        if (storageTube.tube[i]) break;
     }
 
     if (i <= my_position)
@@ -234,44 +234,30 @@ void RobotController::printTubes()
 
 void RobotController::update()
 {
-  static long int last_hb_time = millis();
-  static long int last_update_time = millis();
-  static long int last_rad_alarm_time = millis();
+  static unsigned int last_hb_time = millis();
+  static unsigned int last_update_time = millis();
+  static unsigned int last_rad_alarm_time = millis();
 
   bluetooth.update();
 
-  long int current_time = millis();
+  unsigned int current_time = millis();
 
   if ((current_time - last_hb_time) > HEARTBEAT_PERIOD)
   {
     bluetooth.sendHB();
+    Serial.println("Send HB");
     last_hb_time = current_time;
   }
   if ((current_time - last_update_time) > SEND_STATUS_PERIOD)
+  {
     bluetooth.sendStatus(this->moveStat, this->gripStat, this->opStat);
-
+    last_update_time = current_time;
+  }
   if ((current_time - last_rad_alarm_time) > RADIATION_ALARM_PERIOD)
   {
     bluetooth.sendRadiation(this->radLevel);
     last_rad_alarm_time = current_time;
   }
-}
-
-int RobotController::waitDur(unsigned int duration) {
-  static unsigned long start = millis();
-  static bool newWait = true;
-
-  if (newWait)
-  {
-    start = millis();
-    newWait = false;
-  }
-
-  if ((millis() - start) > duration) {
-    newWait = true;
-    return DONE;
-  }
-  return NOT_DONE_YET;
 }
 
 /*int RobotController::stop()

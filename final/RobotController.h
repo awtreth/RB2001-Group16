@@ -77,8 +77,6 @@ class RobotController
     int storage2supply();
     int supply2reactor();
 
-    int waitDur(unsigned int duration);
-
   private:
 
     int alarm_pin_low;
