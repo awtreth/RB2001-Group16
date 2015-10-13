@@ -15,7 +15,7 @@
  * This factor is proportional to the level of compensation (how much faster
  * to turn the left motor when we want to turn both equally)
  */
-#define MOTOR_COMPENSATION 	.12
+#define MOTOR_COMPENSATION 	.1
 
 ///To index the LineSensor array in DriveTrain
 enum LineSensorIndex{LEFT_LS, RIGHT_LS, SIDE_LS, BACK_LS, N_LINE_SENSORS};
@@ -148,11 +148,11 @@ class DriveTrain
 	 * 
 	 * \TODO Actually, it is a suggestion: n_line_crossings == 0, the robot does nothings
 	 */
-	int moveForward(int n_line_crossings = 0, int speed = DEFAULT_SPEED);
+	int moveForward(int n_line_crossings = -1, int speed = DEFAULT_SPEED);
 	/**Same as moveForward(), but backwards
 	 * @see moveForward()
 	*/
-	int moveBackward(int n_line_crossings = 0, int speed = DEFAULT_SPEED);
+	int moveBackward(int n_line_crossings = -1, int speed = DEFAULT_SPEED);
 	/** Generic Function for LineTracking
 	 * 
 	 * \param n_line_crossings
@@ -161,7 +161,7 @@ class DriveTrain
 	 * @see moveBackward()
 	 * @see moveForward()
 	 */ 
-	int moveStraight(int n_line_crossings = 0, int speed = DEFAULT_SPEED);
+	int moveStraight(int n_line_crossings = -1, int speed = DEFAULT_SPEED);
 
 
 	/**Indexed by LineSensorIndex

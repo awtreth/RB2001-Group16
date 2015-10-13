@@ -3,11 +3,13 @@
 #include <Servo.h>
 #include "util.h"
 
-#define DROP_SPEED 	100 //TODO: calibrate
-#define LIFT_SPEED 	52 // calibrated
-#define STOP 		90 // motor-off speed
-#define HOR_SET 	0
-#define VERT_SET 	87
+#define DROP_SPEED 	      100 //TODO: calibrate
+#define LIFT_SPEED 	      45 // calibrated
+#define STOP 		          90 // motor-off speed
+#define SPECIAL_GRAB_SET  65
+#define SPECIAL_VERT_SET  155
+#define HOR_SET 	        58
+#define VERT_SET 	        150
 
 FRED::FRED()
 {
@@ -60,12 +62,12 @@ int FRED::moveGripper(LifterAction movement)
  */
 int FRED::moveGripperUp()
 {
-	if(hi_stopper.isPressed()){ //if it has hit the limit switch
- 	  return DONE; //you're done
-	}else{ 
+	//if(hi_stopper.isPressed()){ //if it has hit the limit switch
+ 	  //return DONE; //you're done
+	//}else{ 
 		lift_motor.write(LIFT_SPEED); //if it's not over, rewrite the speed
-	}
-	return NOT_DONE_YET;
+	//}
+	return DONE;
 }
 /** Movees the gripper down
  * @return 0 if not done, 1 for done
@@ -99,6 +101,14 @@ int FRED::turnGripper(GripperOrientation orientation)
 		  turn_gripper.write(VERT_SET); 
 		  return DONE; 
 		  break;
+    case SPECIAL_GRAB:
+      turn_gripper.write(SPECIAL_GRAB_SET);
+      return DONE;
+      break;
+     case SPECIAL_VERT:
+     turn_gripper.write(SPECIAL_VERT_SET);
+     return DONE;
+     break;
 	}
 	
 	return NOT_DONE_YET;

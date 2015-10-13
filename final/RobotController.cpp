@@ -83,9 +83,9 @@ int RobotController::reactor2storage()
 
   static Action action_seq[] =
   {
-    Action(MOVE_BACKWARD),//to be decided
+    Action(MOVE_BACKWARD, -1),//to be decided
     Action(TURN, RIGHT),//to be decided
-    Action(MOVE_FORWARD, 0, DEFAULT_SPEED)
+    Action(MOVE_FORWARD, -1, DEFAULT_SPEED )
   };
 
   if (new_move)
@@ -99,7 +99,7 @@ int RobotController::reactor2storage()
       for (i = 0; i < 4; i++)
         if (!storageTube.tube[i]) break;
 
-      action_seq[0].n_line_crossings = i + 1;
+      action_seq[0].n_line_crossings = i + 1;//FIXME
       action_seq[1].direction = RIGHT;
     } else if (goal_reactor == 2)
     {
@@ -142,7 +142,7 @@ int RobotController::storage2supply()
     Action(TURN, RIGHT),//to be decided
     Action(MOVE_FORWARD, 0, DEFAULT_SPEED),//to be decided
     Action(TURN, RIGHT),//to be decided
-    Action(MOVE_FORWARD, 0, DEFAULT_SPEED)
+    Action(MOVE_FORWARD, -1, DEFAULT_SPEED)
   };
 
   if (new_move)
@@ -198,7 +198,7 @@ int RobotController::supply2reactor()
   {
     Action(MOVE_BACKWARD, 1, DEFAULT_SPEED),//return to center
     Action(TURN, (goal_reactor == 1) ? RIGHT : LEFT),
-    Action(MOVE_FORWARD, 0, DEFAULT_SPEED),//to be decided
+    Action(MOVE_FORWARD, -1, DEFAULT_SPEED),//to be decided
   };
 
   current_action += this->execute(action_seq[current_action]);

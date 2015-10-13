@@ -8,7 +8,7 @@
 
 enum GripperPosition{OPEN, CLOSE};
 enum LifterAction{MOVE_UP, MOVE_DOWN};
-enum GripperOrientation{HORIZONTAL, VERTICAL};
+enum GripperOrientation{HORIZONTAL, VERTICAL, SPECIAL_GRAB, SPECIAL_VERT};
 
 ///Fuel Rod Extractor Device
 /**

@@ -89,12 +89,12 @@ int DriveTrain::turn90(TurnDirection dir)
   static bool came_from_white = false;
   static bool already_turn = false;
   
-  long int last_time = millis();
+  static unsigned int last_time = millis();
   
   LineSensorIndex turn_sensor = BACK_LS;
 
   if (dir == RIGHT) {
-    turn_sensor = BACK_LS; //TODO: put turn_sensor as an argument
+    turn_sensor = SIDE_LS; //TODO: put turn_sensor as an argument
   } else if (dir == LEFT) {
     turn_sensor = SIDE_LS;
   }
@@ -108,7 +108,7 @@ int DriveTrain::turn90(TurnDirection dir)
   }
 
     //this waiting was necessary, because sometimes the sensor starts facing the white surface in the wrong side of the line (opposite to the turn direction). In this case, the first line crossing the robot senses is the wrong line (where it was suppose to be facing at the beggining). So, the sulution is to start turning for a while and then verify if it's black (white first)
-  if (!came_from_white && (millis()-last_time > 500))
+  if (!came_from_white && (millis()-last_time > 1300))
   {
     //It waits the turn_sensor to sense white to start looking for black state (when it hits a crossing line)
     //it is necessary, because the sensor can start facing a black line
@@ -151,7 +151,7 @@ int DriveTrain::moveStraight(int n_line_crossings, int speed)
     //This condition control polling
   if (new_move)
   {//Since this function is supposed to be called multiple times (in a loop). It has to reset the line counting at the first call
-    if (n_line_crossings == 0) n_line_crossings = -1;
+    if (n_line_crossings == 0) return DONE;
     missing_lines = n_line_crossings;
     new_move = false;
   }
