@@ -19,8 +19,8 @@ void DriveTrain::attachLnSensors(int left_pin, int right_pin, int side_pin, int 
 {
   ln_sensor[LEFT_LS].attachPin(left_pin);
   ln_sensor[RIGHT_LS].attachPin(right_pin);
-  ln_sensor[SIDE_LS].attachPin(side_pin);
-  ln_sensor[BACK_LS].attachPin(back_pin);
+  ln_sensor[RIGHT_SIDE_LS].attachPin(side_pin);
+  ln_sensor[LEFT_SIDE_LS].attachPin(back_pin);
 }
 
 void DriveTrain::attachStoppers(int reactor_stopper_pin, int wall_stopper_pin)
@@ -93,16 +93,9 @@ int DriveTrain::turn90(TurnDirection dir)
   
   static unsigned int last_time = millis();
   
-  /*LineSensorIndex turn_sensor = BACK_LS;
-
-  if (dir == RIGHT) {
-    turn_sensor = BACK_LS; //TODO: put turn_sensor as an argument
-  } else if (dir == LEFT) {
-    turn_sensor = SIDE_LS;
-  }*/
   if (!came_from_white)
   {
-    if (ln_sensor[SIDE_LS].isWhite())
+    if (ln_sensor[RIGHT_SIDE_LS].isWhite())
       came_from_white = true;
   }
 
@@ -115,18 +108,20 @@ int DriveTrain::turn90(TurnDirection dir)
     already_turn = true;
   }
 
-  if (came_from_white && (millis()-last_time > 1300))
+  if (came_from_white && (millis()-last_time > 1500))
   {//It just start checking if the sensor is black when it has already sensed white once
-    if (!left_sensor && ln_sensor[BACK_LS].isBlack())
+    if (!left_sensor && ln_sensor[LEFT_SIDE_LS].isBlack())
     {
-      waitDuration(100);
+      //waitDuration(100);
+      //delay(50);
       left_motor.write(90);//stop the motor
       left_sensor = true;
     }
 
-    if (!right_sensor && ln_sensor[SIDE_LS].isBlack())
+    if (!right_sensor && ln_sensor[RIGHT_SIDE_LS].isBlack())
     {
-      waitDuration(110);
+      //waitDuration(110);
+      //delay(50);
       right_motor.write(90);//stop the motor
       right_sensor = true;
     }
@@ -170,21 +165,6 @@ int DriveTrain::moveStraight(int n_line_crossings, int speed)
     new_move = false;
   }
 
-  /*Another approach
-
-  ln_sensor[RIGHT_LS].read();
-  ln_sensor[LEFT_LS].read();
-
-  if(missing_lines == 0  || stopper.isPressed(true))
-  {
-    this->stop();
-    new_move = true;
-    return DONE;
-  }
-
-  int signal_control = pid.calc(ln_sensor[RIGHT_LS].get()-ln_sensor[LEFT_LS].gets());
-  */
-
   if (speed >= 0 )
     pid.positiveConstants();
   else
@@ -198,13 +178,13 @@ int DriveTrain::moveStraight(int n_line_crossings, int speed)
   //FIXME: the next 2 if statements are repeated in turn90. Maybe we can create a method for this
   if (!came_from_white)
   {
-    if (ln_sensor[SIDE_LS].isWhite())
+    if (ln_sensor[RIGHT_SIDE_LS].isWhite())
       came_from_white = true;
   }
 
   if (came_from_white)
   {
-    if (ln_sensor[SIDE_LS].isBlack())
+    if (ln_sensor[RIGHT_SIDE_LS].isBlack())
     {
       came_from_white = false;
       missing_lines--;

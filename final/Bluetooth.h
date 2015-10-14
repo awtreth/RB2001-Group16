@@ -77,7 +77,7 @@ private:
 
 	BluetoothMaster btmaster; //sets variables to store the instance of BTMaster and Protocol
 	ReactorProtocol pcol;
-	
+
 	StorageTube *storageTube;
 	SupplyTube *supplyTube;
   bool *stop;
