@@ -110,7 +110,6 @@ int RobotController::startup()
 
 }
 
-
 int RobotController::grabRod()
 {
   static int current_action = 0;
@@ -328,7 +327,10 @@ int RobotController::placeReactor() {
     Action(GRIPPER, OPEN),
     Action(WAIT, 500),
     Action(MOVE_GRIPPER, MOVE_UP),
+
     Action(WAIT, 2000)
+
+
   };
 
   current_action += this->execute(action_seq[current_action]);

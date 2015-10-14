@@ -20,12 +20,13 @@ void setup() {
   Switch starter_switch(STARTER_SWITCH_PIN);
 
   Serial.println("Wait Connection");
-  while(!Serial1.available());
+    while(!Serial1.available());
   Serial.println("Connected");
-  while(!starter_switch.isPressed())
-     robot.update();
-    
-  Serial.println("GO");
+    while(!starter_switch.isPressed())
+      robot.update();
+       
+  starter_switch.waitOn();
+
 }
 
 int current_action = 0;
