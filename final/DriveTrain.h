@@ -18,7 +18,7 @@
 #define MOTOR_COMPENSATION 	.1
 
 ///To index the LineSensor array in DriveTrain
-enum LineSensorIndex{LEFT_LS, RIGHT_LS, SIDE_LS, BACK_LS, N_LINE_SENSORS};
+enum LineSensorIndex{LEFT_LS, RIGHT_LS, RIGHT_SIDE_LS, LEFT_SIDE_LS, N_LINE_SENSORS};
 
 ///Arguments for DriveTrain::turn(TurnDirection direction)
 enum TurnDirection{LEFT, RIGHT, TURN_180};

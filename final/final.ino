@@ -23,9 +23,9 @@ void setup() {
   mySetup();
   Switch starter_switch(STARTER_SWITCH_PIN);
   
-  while(!starter_switch.isPressed())
-    robot.update();
-  //starter_switch.waitOn();
+  //while(!starter_switch.isPressed())
+    
+  starter_switch.waitOn();
   Serial.println("GO");
   //parser.add('p', &kp);
   //parser.add('i', &ki);
@@ -33,8 +33,6 @@ void setup() {
 }
 
 int current_action = 0;
-int fred_test = NOT_DONE_YET;
-
 void loop()
 {
   //parser.check();

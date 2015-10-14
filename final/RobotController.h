@@ -73,9 +73,13 @@ class RobotController
     int setGripStat(int new_GripStat);
     int setMoveStat(int new_MoveStat);
 
+    int startup();
     int reactor2storage();
     int storage2supply();
     int supply2reactor();
+    int reactor2reactor();
+    int placeReactor();
+    int grabRod();
 
   private:
 
