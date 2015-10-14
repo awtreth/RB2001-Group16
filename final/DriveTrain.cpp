@@ -121,7 +121,7 @@ int DriveTrain::turn90(TurnDirection dir)
     if (!right_sensor && ln_sensor[RIGHT_SIDE_LS].isBlack())
     {
       //waitDuration(110);
-      //delay(50);
+     // delay(50);
       right_motor.write(90);//stop the motor
       right_sensor = true;
     }

@@ -143,7 +143,9 @@ int RobotController::reactor2storage()
   static Action action_seq[] =
   {
     Action(MOVE_BACKWARD, -1),//to be decided
+    Action(WAIT, 1500),
     Action(TURN, RIGHT),//to be decided
+    Action(WAIT, 1500),
     Action(MOVE_FORWARD, -1, DEFAULT_SPEED )
   };
 
@@ -198,9 +200,13 @@ int RobotController::storage2supply()
   static Action action_seq[] =
   {
     Action(MOVE_BACKWARD, 1, DEFAULT_SPEED),//return to center
+    Action(WAIT, 1500),
     Action(TURN, LEFT),//to be decided
+    Action(WAIT, 1500),
     Action(MOVE_FORWARD, 0, DEFAULT_SPEED),//to be decided
+    Action(WAIT, 1500),
     Action(TURN, LEFT),//to be decided
+    Action(WAIT, 1500),
     Action(MOVE_FORWARD, -1, DEFAULT_SPEED)
   };
 
@@ -255,7 +261,9 @@ int RobotController::supply2reactor()
   Action action_seq[] =
   {
     Action(MOVE_BACKWARD, 1, DEFAULT_SPEED),//return to center
+    Action(WAIT, 1500),
     Action(TURN, (goal_reactor == 1) ? RIGHT : LEFT),
+    Action(WAIT, 1500),
     Action(MOVE_FORWARD, -1, DEFAULT_SPEED),//to be decided
   };
 
@@ -296,8 +304,11 @@ int RobotController::reactor2reactor() {
   static Action action_seq[] =
   {
     Action(MOVE_BACKWARD, 1, DEFAULT_SPEED),//return to center
+    Action(WAIT, 1500),
     Action(TURN, LEFT),
+    Action(WAIT, 1500),
     Action(TURN, LEFT),
+    Action(WAIT, 1500),
     Action(MOVE_FORWARD, -1, DEFAULT_SPEED),
 
   };

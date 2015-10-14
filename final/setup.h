@@ -65,24 +65,23 @@ Action action_sequence[] = {
 
   Action(SET_ALARM, 1),
   Action(REACTOR_TO_STORAGE),
-  Action(GRAB_ROD),
-  Action(SET_ALARM, 0),
-  Action(WAIT, 1000),
   Action(GRIPPER, OPEN),
+  Action(SET_ALARM, 0),
   Action(WAIT, 1000),
   Action(TURN_GRIPPER, SPECIAL_GRAB),
 
   Action(STORAGE_TO_SUPPLY),
 
+  Action(SET_ALARM, 2),                               
   Action(WAIT, 1000),
   Action(GRIPPER, CLOSE),
   Action(WAIT, 1000),
-  Action(SET_ALARM, 2),
+  
 
   Action(SUPPLY_TO_REACTOR),
   Action(PLACE_IN_REACTOR),
   Action(SET_ALARM, 3),
-  Action(WAIT, 100000000)
+  Action(WAIT, 10000)
 };
 
 void mySetup()
