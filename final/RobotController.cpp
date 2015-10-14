@@ -121,6 +121,7 @@ int RobotController::grabRod()
     Action(WAIT, 1000),
     Action(SET_ALARM, 1),
     Action(MOVE_GRIPPER, MOVE_UP),
+    Action(WAIT, 2000),
     Action(TURN_GRIPPER, HORIZONTAL),
   };
 
@@ -143,9 +144,9 @@ int RobotController::reactor2storage()
   static Action action_seq[] =
   {
     Action(MOVE_BACKWARD, -1),//to be decided
-    Action(WAIT, 1500),
+    Action(WAIT, 250),
     Action(TURN, RIGHT),//to be decided
-    Action(WAIT, 1500),
+    Action(WAIT, 250),
     Action(MOVE_FORWARD, -1, DEFAULT_SPEED )
   };
 
@@ -161,14 +162,14 @@ int RobotController::reactor2storage()
         if (!storageTube.tube[i]) break;
 
       action_seq[0].n_line_crossings = i + 1;//FIXME
-      action_seq[1].direction = RIGHT;
+      action_seq[2].direction = RIGHT;
     } else if (goal_reactor == 2)
     {
       for (i = 3; i >= 0; i--)
         if (!storageTube.tube[i]) break;
 
       action_seq[0].n_line_crossings = 4 - i;
-      action_seq[1].direction = LEFT;
+      action_seq[2].direction = LEFT;
     }
 
     my_position = i;
@@ -200,13 +201,13 @@ int RobotController::storage2supply()
   static Action action_seq[] =
   {
     Action(MOVE_BACKWARD, 1, DEFAULT_SPEED),//return to center
-    Action(WAIT, 1500),
+    Action(WAIT, 250),
     Action(TURN, LEFT),//to be decided
-    Action(WAIT, 1500),
+    Action(WAIT, 250),
     Action(MOVE_FORWARD, 0, DEFAULT_SPEED),//to be decided
-    Action(WAIT, 1500),
+    Action(WAIT, 250),
     Action(TURN, LEFT),//to be decided
-    Action(WAIT, 1500),
+    Action(WAIT, 250),
     Action(MOVE_FORWARD, -1, DEFAULT_SPEED)
   };
 
@@ -227,15 +228,15 @@ int RobotController::storage2supply()
 
     if (i <= my_position)
     {
-      action_seq[1].direction = LEFT;
-      action_seq[3].direction = LEFT;
+      action_seq[2].direction = LEFT;
+      action_seq[6].direction = LEFT;
     } else
     {
-      action_seq[1].direction = RIGHT;
-      action_seq[3].direction = RIGHT;
+      action_seq[2].direction = RIGHT;
+      action_seq[6].direction = RIGHT;
     }
 
-    action_seq[2].n_line_crossings = abs(my_position - i);
+    action_seq[4].n_line_crossings = abs(my_position - i);
 
     my_position = i;
     new_move = false;
@@ -261,9 +262,9 @@ int RobotController::supply2reactor()
   Action action_seq[] =
   {
     Action(MOVE_BACKWARD, 1, DEFAULT_SPEED),//return to center
-    Action(WAIT, 1500),
+    Action(WAIT, 250),
     Action(TURN, (goal_reactor == 1) ? RIGHT : LEFT),
-    Action(WAIT, 1500),
+    Action(WAIT, 250),
     Action(MOVE_FORWARD, -1, DEFAULT_SPEED),//to be decided
   };
 
@@ -303,12 +304,13 @@ int RobotController::reactor2reactor() {
 
   static Action action_seq[] =
   {
+    Action(MOVE_GRIPPER, MOVE_UP),
     Action(MOVE_BACKWARD, 1, DEFAULT_SPEED),//return to center
-    Action(WAIT, 1500),
+    Action(WAIT, 250),
     Action(TURN, LEFT),
-    Action(WAIT, 1500),
+    Action(WAIT, 250),
     Action(TURN, LEFT),
-    Action(WAIT, 1500),
+    Action(WAIT, 250),
     Action(MOVE_FORWARD, -1, DEFAULT_SPEED),
 
   };
@@ -406,5 +408,3 @@ void RobotController::setAlarmPins(int pin_number_low, int pin_number_high)
   digitalWrite(pin_number_low, HIGH);
   digitalWrite(pin_number_high, HIGH);
 }
-
-

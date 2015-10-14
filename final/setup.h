@@ -37,8 +37,8 @@ Action action_sequence[] = {
 
   //we can put this in a MacroAction
   Action(STARTUP),
-/*
-  //Action(SET_ALARM_,1),
+  Action(GRAB_ROD),
+  Action(SET_ALARM,1),
   Action(REACTOR_TO_STORAGE),
 
 
@@ -57,7 +57,7 @@ Action action_sequence[] = {
   Action(SET_ALARM, 2),
   Action(SUPPLY_TO_REACTOR),
   Action(PLACE_IN_REACTOR),
-  Action(SET_ALARM, 0),*/
+  Action(SET_ALARM, 0),
 
 
   Action(REACTOR_TO_REACTOR),

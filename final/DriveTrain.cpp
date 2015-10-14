@@ -108,7 +108,7 @@ int DriveTrain::turn90(TurnDirection dir)
     already_turn = true;
   }
 
-  if (came_from_white && (millis()-last_time > 1500))
+  if (came_from_white && (millis()-last_time > 2250))
   {//It just start checking if the sensor is black when it has already sensed white once
     if (!left_sensor && ln_sensor[LEFT_SIDE_LS].isBlack())
     {
