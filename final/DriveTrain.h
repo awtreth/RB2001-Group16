@@ -59,8 +59,8 @@ class DriveTrain
 	
 	/** Drive the motors separatedly
 	 * 
-	 * \param left_value signal sent to right Servo (Arduino Library). It is proportional to the torque and the constraint range is -90~90. Positive values make it turns in the direction that makes the drive train move forward 
-	 * \param right_value signal sent to right Servo (Arduino Library). It is proportional to the torque and the constraint range is -90~90. Positive values make it turns in the direction that makes the drive train move forward 
+	 * @param left_value signal sent to right Servo (Arduino Library). It is proportional to the torque and the constraint range is -90~90. Positive values make it turns in the direction that makes the drive train move forward 
+	 * @param right_value signal sent to right Servo (Arduino Library). It is proportional to the torque and the constraint range is -90~90. Positive values make it turns in the direction that makes the drive train move forward 
 	 */
 	void drive(int left_value, int right_value);
 
@@ -69,7 +69,7 @@ class DriveTrain
   
 	/**Send same value to the motors. Move forward without LineSensors feedback
 	 * 
-	 * \param speed Range:0~90
+	 * @param speed Range:0~90
 	 * @see drive()
 	 */
 	void driveEqual(int speed = DEFAULT_SPEED);
@@ -78,15 +78,15 @@ class DriveTrain
 	 * 
 	 * It sends opositte values for drive() function
 	 * 
-	 * \param speed Range:-90~90. Positive - Turn Right; Negative - Turn Left;
+	 * @param speed Range:-90~90. Positive - Turn Right; Negative - Turn Left;
 	 * @see drive()
 	 */
 	void turn(int speed);
 	
 	/**The robot turns around itself given the Turn Direction and speed 
 	 * 
-	 * \param dir RIGHT or LEFT
-	 * \param speed Range:0~90
+	 * @param dir RIGHT or LEFT
+	 * @param speed Range:0~90
 	 * @see drive()
 	 */
 	void turn(TurnDirection dir, int speed = DEFAULT_SPEED*2/3);
@@ -131,9 +131,9 @@ class DriveTrain
 	 * 
 	 * Turns in default speed
 	 * 
-	 * \param dir RIGHT or LEFT
+	 * @param dir RIGHT or LEFT
 	 * 
-	 * @TODO: we can create a parameter which is the stopper LineSensorIndex
+	 * 
 	 */
 	int turn90(TurnDirection dir);
 	int turn90Left();
@@ -143,10 +143,10 @@ class DriveTrain
 	 * 
 	 * The robot stops when it pass through n_line_crossings or when it hits a wall or a reactor
 	 * 
-	 * \param n_line_crossings <=0 means that the robot will not count line_crossings
-	 * \param speed 0~90
+	 * @param n_line_crossings <=0 means that the robot will not count line_crossings
+	 * @param speed 0~90
 	 * 
-	 * \TODO Actually, it is a suggestion: n_line_crossings == 0, the robot does nothings
+	 * n_line_crossings == 0, the robot does nothings
 	 */
 	int moveForward(int n_line_crossings = -1, int speed = DEFAULT_SPEED);
 	/**Same as moveForward(), but backwards
@@ -155,8 +155,8 @@ class DriveTrain
 	int moveBackward(int n_line_crossings = -1, int speed = DEFAULT_SPEED);
 	/** Generic Function for LineTracking
 	 * 
-	 * \param n_line_crossings
-	 * \param speed -90~90. Positive: Forward; Negative: Backward
+	 * @param n_line_crossings
+	 * @param speed -90~90. Positive: Forward; Negative: Backward
 	 * 
 	 * @see moveBackward()
 	 * @see moveForward()

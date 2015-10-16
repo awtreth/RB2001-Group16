@@ -1,5 +1,12 @@
 #include "util.h"
 #include "Arduino.h"
+
+/**
+ * @brief Just a wait duration action
+ * 
+ * @param duration How long to wait
+ * @return 1 for done, 0 for not done
+ */
 int waitDuration(unsigned int duration)
 {
   static unsigned long start = millis();

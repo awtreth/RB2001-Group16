@@ -23,9 +23,9 @@ class PidController
 	 * 
 	 * output = kp*error + kd*(error-last_error)/dt + ki*sum*dt;
 	 * 
-	 * \param target Desired value to be tracked
-	 * \param sensor_value Measured value to be compared with target
-	 * \return signal control
+	 * @param target Desired value to be tracked
+	 * @param sensor_value Measured value to be compared with target
+	 * @return signal control
 	 */
 	double calc(double target, double sensor_value);
 	
@@ -37,7 +37,7 @@ class PidController
 	/**Reset internal variables
 	 * good when you have to turn the PID off or on.
 	 * Also good to avoid unstable behavior due integral part
-	*/ 
+	 */ 
 	void reset();
   
 	void setConstants(double Kp, double Ki, double Kd);

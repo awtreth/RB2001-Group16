@@ -1,7 +1,10 @@
 #include "Arduino.h"
 #include "RobotController.h"
 #include "util.h"
-
+/**
+ * @brief Creates the Robot controller object
+ * @details Sets up and adds inputs to the bluetooth, creates the default values for the starting reactor and position
+ */
 RobotController::RobotController()
 {
   bluetooth.setup();
@@ -11,17 +14,23 @@ RobotController::RobotController()
   my_position = 0; //0-3
   goal_reactor = 1;//1 or 2
 }
-
+/**
+ * @brief The main execution function
+ * @details Checks if it should stop, then executes the actions based on what the action name is mapped to
+ * 
+ * @param action Which action it shoudl execute
+ * @return 1 for DONE, 0 for NOT_DONE_YET
+ */
 int RobotController::execute(Action action)
 {
-  if (this->stop)
+  if (this->stop) //Checks if it's stopped
   {
-    this->drive_train.stop();
-    moveStat = STOPPED;
+    this->drive_train.stop(); //If so it stops the motors
+    moveStat = STOPPED; //and changes what it's doing
   } else
   {
-    moveStat = MOVINGAUTO;
-    switch (action.type)
+    moveStat = MOVINGAUTO; 
+    switch (action.type) //chooses the action based on the given parameter
     {
       //SIMPLE ACTIONS
       case MOVE_FORWARD:
@@ -45,10 +54,18 @@ int RobotController::execute(Action action)
         }
         return this->fred.gripper(action.position);
         break;
-      case TURN_GRIPPER: return this->fred.turnGripper(action.orientation); break;
-      case MOVE_GRIPPER: return this->fred.moveGripper(action.movement); break;
-      case WAIT: return waitDuration(action.duration); break;
-      case SET_ALARM: return this->setAlarm(action.rad_level);
+      case TURN_GRIPPER: 
+        return this->fred.turnGripper(action.orientation); 
+        break;
+      case MOVE_GRIPPER: 
+        return this->fred.moveGripper(action.movement); 
+        break;
+      case WAIT: 
+        return waitDuration(action.duration); 
+        break;
+      case SET_ALARM: 
+        return this->setAlarm(action.rad_level);
+        break;
 
       //MACRO_ACTIONS
       case REACTOR_TO_STORAGE:
@@ -78,18 +95,23 @@ int RobotController::execute(Action action)
         return this->grabRod();
         break;
 
-      default: Serial.println("Default case in RobotController::execute(action)");
+      default: 
+        Serial.println("Default case in RobotController::execute(action)");
+        break;
     }
   }
 
   return NOT_DONE_YET;
 }
 
-//Action
+/**
+ * @brief Macro Action for startup
+ * @return 1 for DONE, 0 for NOT_DONE_YET
+ */
 int RobotController::startup()
 {
-  static int current_action = 0;
-  static Action action_seq[] =
+  static int current_action = 0; //Stores the current action
+  static Action action_seq[] = //This is the sequence of actions to complete
   {
     Action(MOVE_GRIPPER, MOVE_UP),
     Action(WAIT, 1000),
@@ -98,18 +120,21 @@ int RobotController::startup()
     Action(MOVE_FORWARD, -1)
   };
 
-  current_action += this->execute(action_seq[current_action]);
+  current_action += this->execute(action_seq[current_action]); //Moves on when action is done
 
   //is the last action?
   if (current_action == (sizeof(action_seq) / sizeof(Action)))
-  {
+  { //if YES
     current_action = 0;
     return DONE;
   }
   return NOT_DONE_YET;
 
 }
-
+/**
+ * @brief Macro Action for Grabbing the rod
+ * @return 1 for DONE, 0 for NOT_DONE_YET
+ */
 int RobotController::grabRod()
 {
   static int current_action = 0;
@@ -136,6 +161,10 @@ int RobotController::grabRod()
   return NOT_DONE_YET;
 
 }
+/**
+ * @brief Macro Action for moving from reactor to storage
+ * @return 1 for DONE, 0 for NOT_DONE_YET
+ */
 int RobotController::reactor2storage()
 {
   static bool new_move = true;
@@ -156,12 +185,12 @@ int RobotController::reactor2storage()
     int i = 0;
 
     //CONSIDER BACKWARD MOVMENT
-    if (goal_reactor == 1)
+    if (goal_reactor == 1) //Determines which tube to go to and sets the number of lines and direction to turn
     {
       for (i = 0; i < 4; i++)
         if (!storageTube.tube[i]) break;
 
-      action_seq[0].n_line_crossings = i + 1;//FIXME
+      action_seq[0].n_line_crossings = i + 1;
       action_seq[2].direction = RIGHT;
     } else if (goal_reactor == 2)
     {
@@ -192,7 +221,10 @@ int RobotController::reactor2storage()
   return NOT_DONE_YET;
 }
 
-
+/**
+ * @brief Macro Action for moving from the storage to supply tube
+ * @return 1 for DONE, 0 for NOT_DONE_YET
+ */
 int RobotController::storage2supply()
 {
   static bool new_move = true;
@@ -254,7 +286,10 @@ int RobotController::storage2supply()
   }
   return NOT_DONE_YET;
 }
-
+/**
+ * @brief Macro Action for supply to reactor
+ * @return 1 for DONE, 0 for NOT_DONE_YET
+ */
 int RobotController::supply2reactor()
 {
   static int current_action = 0;
@@ -278,7 +313,9 @@ int RobotController::supply2reactor()
   }
   return NOT_DONE_YET;
 }
-
+/**
+ * @brief Prints the tubes so that we can debug Bluetooth
+ */
 void RobotController::printTubes()
 {
   Serial.print("StorageArea: ");
@@ -298,7 +335,10 @@ void RobotController::printTubes()
   }
   Serial.print('\n');
 }
-
+/**
+ * @brief Macro Action for moving from reactor 1 to reactor 2
+ * @return 1 for DONE, 0 for NOT_DONE_YET
+ */
 int RobotController::reactor2reactor() {
   static int current_action = 0;
 
@@ -326,7 +366,10 @@ int RobotController::reactor2reactor() {
   }
   return NOT_DONE_YET;
 }
-
+/**
+ * @brief Macro Action for placing the rod in the reactor
+ * @return 1 for DONE, 0 for NOT_DONE_YET
+ */
 int RobotController::placeReactor() {
   static int current_action = 0;
 
@@ -356,7 +399,15 @@ int RobotController::placeReactor() {
   }
   return NOT_DONE_YET;
 }
-
+/**
+ * @brief This is the bluetooth update function
+ * @details This is a non blocking and non ISR based incremental function
+ * 
+ * When it is called, it ALWAYS updates the information held with what it reads from the packets if packets are available
+ * Then, depending on what time it is, it sends the status, heartbeat, or raditaion alarm packets
+ * The parameter(s) for the packets are pulled from private variables held in this class 
+ * 
+ */
 void RobotController::update()
 {
   static unsigned int last_hb_time = millis();
@@ -384,7 +435,13 @@ void RobotController::update()
     last_rad_alarm_time = current_time;
   }
 }
-
+/**
+ * @brief Sets the radiatin alarms and also sends the signal to the UNO to trigger the visible alarm
+ * 
+ * @param level_to_set 0 for no rad, 1 for low, 2 for high, and 3 for celebration 
+ * NOTE: Celebration is only to show the visible flag, not intended to happen when field needs valid packets
+ * @return only returns done for sequencing. No way to fail
+ */
 int RobotController::setAlarm(int level_to_set) {
   this->radLevel = level_to_set;
   digitalWrite(alarm_pin_low, HIGH);
@@ -399,6 +456,12 @@ int RobotController::setAlarm(int level_to_set) {
   }
   return DONE;
 }
+/**
+ * @brief Sets the alarm pins 
+ * 
+ * @param pin_number_low The low alarm pin
+ * @param pin_number_high The high alarm pin
+ */
 void RobotController::setAlarmPins(int pin_number_low, int pin_number_high)
 {
   alarm_pin_low = pin_number_low;

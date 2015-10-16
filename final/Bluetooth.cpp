@@ -15,12 +15,8 @@ Bluetooth::Bluetooth(){ //Initializes the Bluetooth object
 void Bluetooth::setup()
 {
   this->pcol = ReactorProtocol(byte(TEAM_NUMBER)); //creates an instance of the ReactorProtocol class with 16 as the Team number
-  //Serial.begin(38400);
-  //Serial1.begin(115200); //Serial3 for the Mega
   pcol.setDst(0x00); //Always set to broadcast to everyone //FIXME
-  //Serial.println("Trying to connect Bluetooth");
-  //while(!Serial1.available());
-  //Serial.println("Bluetooth connected");
+
 }
 /** a callable function that takes care of reading the Bluetooth and taking care of the relevant assigns
  */

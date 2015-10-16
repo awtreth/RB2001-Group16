@@ -33,9 +33,8 @@
 #define ALARM_PIN_HIGH 17
 
 RobotController robot;
-Action action_sequence[] = {
+Action action_sequence[] = { //This is the list of actions to follow. When done it moves on
 
-  //we can put this in a MacroAction
   Action(STARTUP),
   Action(GRAB_ROD),
   Action(SET_ALARM,1),
@@ -88,8 +87,8 @@ void mySetup()
 {
   //DriveTrain setup
   robot.drive_train.attachMotors(LEFT_MOTOR_PIN, RIGHT_MOTOR_PIN);
-  robot.drive_train.attachLnSensors(LEFT_LN_SENSOR_PIN, RIGHT_LN_SENSOR_PIN, RIGHT_SIDE_LN_SENSOR_PIN, LEFT_SIDE_LN_SENSOR_PIN);//at first we'll try without back_pin
-  robot.drive_train.attachStoppers(REACTOR_SWITCH_PIN, WALL_SWITCH_PIN);//at first we'll try without back_pin
+  robot.drive_train.attachLnSensors(LEFT_LN_SENSOR_PIN, RIGHT_LN_SENSOR_PIN, RIGHT_SIDE_LN_SENSOR_PIN, LEFT_SIDE_LN_SENSOR_PIN);
+  robot.drive_train.attachStoppers(REACTOR_SWITCH_PIN, WALL_SWITCH_PIN);
   robot.drive_train.pid.setConstants(LN_TRACK_KP, LN_TRACK_KI, LN_TRACK_KD);
   robot.drive_train.pid.setLimits(-90, +90);
 

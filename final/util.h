@@ -19,8 +19,8 @@ class ParamParser
 
   public:
 
-  ParamParser(){n_cmd = 0; /*Serial.begin(38400);*/}
-
+  ParamParser(){n_cmd = 0;}
+  
   void add(const char character, double* pointer)
   {
     char_code[n_cmd] = character;

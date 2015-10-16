@@ -6,11 +6,12 @@
 #include "PidController.h"
 #include "Switch.h"
 
+//Enumerations for different case statements 
 enum GripperPosition{OPEN, CLOSE};
 enum LifterAction{MOVE_UP, MOVE_DOWN};
 enum GripperOrientation{HORIZONTAL, VERTICAL, SPECIAL_GRAB, SPECIAL_VERT};
 
-///Fuel Rod Extractor Device
+//Fuel Rod Extractor Device
 /**
  * Do all the basic movements needed to take/place the rod
  */
@@ -25,7 +26,7 @@ class FRED
   
 	public:
 
-	Switch lo_stopper;
+	Switch lo_stopper; //The switches for the bumper switches
 	Switch hi_stopper;
   
 	FRED(); // unused constructor

@@ -20,14 +20,14 @@ class LineSensor
 	int get();///< get last read value
 	
 	/** 
-	 * \param take_last If it's true, analyse last read value. Otherwise, it'll read
-	 * \return True if it's black. False otherwise
+	 * @param take_last If it's true, analyse last read value. Otherwise, it'll read
+	 * @return True if it's black. False otherwise
 	 */
 	bool isWhite(bool take_last = false);
 	
 	/** 
-	 * \param take_last If it's true, analyse last read value. Otherwise, it'll read
-	 * \return True if it's black. False otherwise
+	 * @param take_last If it's true, analyse last read value. Otherwise, it'll read
+	 * @return True if it's black. False otherwise
 	 */
 	bool isBlack(bool take_last = false);
 };

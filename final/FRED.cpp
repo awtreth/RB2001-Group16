@@ -3,11 +3,11 @@
 #include <Servo.h>
 #include "util.h"
 
-#define DROP_SPEED 	      100 //TODO: calibrate
-#define LIFT_SPEED 	      45 // calibrated
-#define STOP 		          90 // motor-off speed
-#define SPECIAL_GRAB_SET  58
-#define SPECIAL_VERT_SET  148
+#define DROP_SPEED 	      100 
+#define LIFT_SPEED 	      45  // calibrated
+#define STOP 		          90  // motor-off speed
+#define SPECIAL_GRAB_SET  58  //Special angles are for grabbing from the horizontal tubes 
+#define SPECIAL_VERT_SET  148 //and then for placing them in the reactor
 #define HOR_SET 	        62
 #define VERT_SET 	        155
 
@@ -117,7 +117,7 @@ int FRED::turnGripper(GripperOrientation orientation)
 int FRED::gripper(GripperPosition state)
 {
 
-  switch (state)
+  switch (state) //Depending on the given state, open or close
   {
     case OPEN:
       gripper_servo.write(0);

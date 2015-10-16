@@ -19,7 +19,7 @@ class RobotController
   
     RobotController();
 
-    DriveTrain drive_train;
+    DriveTrain drive_train; //Objects for the drivetrain, FRED, and the Bluetooth
     FRED fred;
     Bluetooth bluetooth;
 
@@ -31,17 +31,13 @@ class RobotController
     int my_position; //0-3
     int goal_reactor;//1 or 2
 
-    void printTubes();
+    void printTubes(); //Function for debugging Bluetooth
 
     int radLevel;//0-2
 
-    //int macro_action_i;
 
-    int execute(Action action);
-    void update();
-    //int execute(MacroAction action_seq);
-    //int stop();
-    //int resume();
+    int execute(Action action); //executes the action
+    void update(); //updates the bluetooth and information
 
     void setAlarmPins(int pin_number_low, int pin_number_high);
     int setAlarm(int level_to_set);
